@@ -1,3 +1,4 @@
+import React, { Component } from 'react';
 import app from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
@@ -11,8 +12,9 @@ const config = {
   messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID
 };
 
-class Firebase {
-  constructor() {
+class Firebase extends Component {
+  constructor(props) {
+    super(props);
     app.initializeApp(config);
 
     /* Helper */
@@ -69,7 +71,7 @@ class Firebase {
             console.log("dbUser", dbUser);
             // default empty roles
             if (!dbUser.roles) {
-              dbUser.roles = {};
+              dbUser.roles = [];
             }
 
             // merge auth and db user
@@ -99,6 +101,17 @@ class Firebase {
   message = uid => this.db.doc(`messages/${uid}`);
 
   messages = () => this.db.collection('messages');
+  
+  // *** Global Gear API ***
+
+  getAllGear = () => this.db.collection('gear').get();
+
+  createGear = (gearData) => this.db.collection('gear').doc().set(gearData);
+
+  updateGear = (item, id) => this.db.collection('gear').doc(id).update(item);
+
+  deleteGear = (id) => this.db.collection('gear').doc(id).delete();
+
 }
 
 export default Firebase;

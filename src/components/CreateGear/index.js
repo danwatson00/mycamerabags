@@ -15,7 +15,7 @@ class CreateGearForm extends Component {
       description: '',
       manualUrl: '',
       specs: '',
-      buyNewLink: ''
+      buyNewUrl: ''
 
     };
     this.onChange = this.onChange.bind(this);
@@ -38,26 +38,38 @@ class CreateGearForm extends Component {
       description: this.state.description,
       manualUrl: this.state.manualUrl,
       specs: this.state.specs,
-      buyNewLink: this.state.buyNewLink
+      buyNewUrl: this.state.buyNewUrl
     }
     event.preventDefault();
     this.props.firebase.createGear(item)
     .catch(error => {
       console.log("props error", error);
       this.setState({ error });
-    });
+    }).then(() => {
+      this.setState({
+        make: '',
+        model: '',
+        category: '',
+        subCategory: '',
+        imageUrl: '',
+        description: '',
+        manualUrl: '',
+        specs: '',
+        buyNewUrl: ''
+      }, this.props.getGear())
+    })
   }
 
   render() {
 
-    const isInvalid = 
+    /* const isInvalid = 
       this.state.make === '' || 
       this.state.model === '' || 
       this.state.category === '' ||
       this.state.subCategory === '' ||
       this.state.description === '' ||
       this.state.imageUrl === '' ||
-      this.state.manualUrl === '';
+      this.state.manualUrl === ''; */
 
      const categories = [
       'Digital Cameras',
@@ -126,8 +138,8 @@ class CreateGearForm extends Component {
             <input type="text" name="specs" value={this.state.specs} onChange={this.onChange} />
           </label>
           <label>
-            Buy New Link:
-            <input type="text" name="buyNewLink" value={this.state.buyNewLink} onChange={this.onChange} />
+            Buy New Url:
+            <input type="text" name="buyNewUrl" value={this.state.buyNewUrl} onChange={this.onChange} />
           </label>
           <input type="submit" value="Submit" />
         </form>

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import app from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';

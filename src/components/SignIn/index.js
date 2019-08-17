@@ -103,7 +103,7 @@ class SignInGoogleBase extends Component {
   onSubmit = event => {
     this.props.firebase.doSignInWithGoogle()
       .then(socialAuthUser => {
-        console.log("socialAuthUser", socialAuthUser);
+        console.log("camera bags socialAuthUser", socialAuthUser);
         // Create a user in your Firebase Realtime Database too
         this.props.firebase
           .user(socialAuthUser.user.uid)

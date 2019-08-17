@@ -6,3 +6,7 @@ export const ACCOUNT = '/account';
 export const ADMIN = '/admin';
 export const PASSWORD_FORGET = '/pw-forget';
 export const ADMIN_DETAILS = '/admin/:userId';
+export const ALL_GEAR = '/allgear';
+export const MY_GEAR = '/mygear';
+export const MY_BAGS = '/mybags';
+export const ALL_BAGS = '/allbags';

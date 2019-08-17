@@ -1,0 +1,14 @@
+.gearCard {
+  width: 200px;
+  padding: 10px;
+  margin: 15px;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.gearCard img {
+  display: block;
+  max-width: 150px;
+  max-height: 150px;
+  margin: 0 auto;
+}

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './GearCard.css';
-import { Button } from 'semantic-ui-react';
 
 
 class GearCard extends Component {

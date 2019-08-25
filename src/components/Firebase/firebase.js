@@ -68,7 +68,6 @@ class Firebase extends Component {
           .get()
           .then(snapshot => {
             const dbUser = snapshot.data();
-            console.log("dbUser", dbUser);
             // default empty roles
             if (!dbUser.roles) {
               dbUser.roles = [];
@@ -90,19 +89,19 @@ class Firebase extends Component {
       }
     });
 
-  // *** User API ***
+  // *** User APIs ***
 
   user = uid => this.db.doc(`users/${uid}`);
 
   users = () => this.db.collection('users');
 
-  // *** Message API ***
+  // *** Message APIs ***
 
   message = uid => this.db.doc(`messages/${uid}`);
 
   messages = () => this.db.collection('messages');
   
-  // *** Global Gear API ***
+  // *** Global Gear APIs ***
 
   getAllGear = () => this.db.collection('gear').get();
 
@@ -111,6 +110,14 @@ class Firebase extends Component {
   updateGear = (item, id) => this.db.collection('gear').doc(id).update(item);
 
   deleteGear = (id) => this.db.collection('gear').doc(id).delete();
+
+  // User Gear APIs ***
+
+  addToUserGear = (gearData) => this.db.collection('userGear').doc().set(gearData);
+
+  updateUserGear = (item, id) => this.db.collection('userGear').doc(id).update(item);
+
+  deleteUserGear = (id) => this.db.collection('userGear').doc(id).delete();
 
 }
 

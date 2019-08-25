@@ -19,8 +19,7 @@ class CreateGearForm extends Component {
 
     };
     this.onChange = this.onChange.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);/* 
-    this.props.firebase.CreateGear = this.props.firebase.CreateGear.bind(this); */
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
   onChange(event) {
@@ -28,7 +27,6 @@ class CreateGearForm extends Component {
   }
 
   onSubmit = event => {
-    console.log("this.props", this.props)
     const item = {
       make: this.state.make,
       model: this.state.model,
@@ -45,7 +43,8 @@ class CreateGearForm extends Component {
     .catch(error => {
       console.log("props error", error);
       this.setState({ error });
-    }).then(() => {
+    })
+    .then(() => {
       this.setState({
         make: '',
         model: '',

@@ -71,10 +71,8 @@ class SignUpFormBase extends Component {
         if (error.code === ERROR_CODE_ACCOUNT_EXISTS) {
           error.message = ERROR_MSG_ACCOUNT_EXISTS;
         }
-
         this.setState({ error });
       });
-
     event.preventDefault();
   };
 

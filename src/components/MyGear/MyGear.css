@@ -1,4 +1,8 @@
-.gearCard {
+.gear-container {
+  display: inline-block;
+}
+
+.create-user-gear-card {
   width: 200px;
   padding: 10px;
   margin: 15px;
@@ -6,18 +10,4 @@
   -webkit-box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.75);
   box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.75);
-}
-
-.gear-card-image {
-  display: block;
-  max-width: 150px;
-  max-height: 150px;
-  margin: 0 auto;
-}
-
-.modal-header {
-  margin-bottom: 20px;
-}
-.modal-header small {
-  margin-left: 10px;
 }

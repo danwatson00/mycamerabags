@@ -1,0 +1,46 @@
+.modal-container {
+  background-color: rgba(0, 0, 0, .5);
+  position: fixed;
+  width:100%;
+  height:100%;
+  top:0px;
+  left:0px;
+  z-index:1000;
+}
+
+.modal {
+  background-color: white;
+  margin: 0 auto;
+  width: 75%;
+  /* min-height:500px;
+  height: 50%; */
+  border-radius: 10px;
+  margin-top: 50px;
+  overflow: hidden;
+}
+
+.modal-header {
+  background-color: lightgray;
+}
+
+.modal-title {
+  margin: 15px 0 15px 10px;
+  display: inline-block;
+}
+
+.close-cross {
+  display: inline-block;
+  float: right;
+  padding: 10px;
+  height: 15px;
+  width: 15px;
+  cursor: pointer;
+}
+
+.modal-footer {
+  background-color: lightgray;
+}
+
+.close-button {
+  float: right;
+}

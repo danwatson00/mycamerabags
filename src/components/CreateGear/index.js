@@ -15,12 +15,30 @@ class CreateGearForm extends Component {
       description: '',
       manualUrl: '',
       specs: '',
-      buyNewUrl: ''
+      buyNewUrl: '',
+      categories: [
+        'Digital Cameras',
+        'Lenses',
+        'Drones and Aerial',
+        'Tripods and Support',
+        'Memory Cards and Accessories',
+        'Batteries and Power Accessories',
+        'Flashes and On Camera Lighting',
+        'Photo Accessories',
+        'Lens Filters',
+        'Lens Accessories',
+        'Lighting',
+        'Computers and Accessories',
+        'Medium/Large Format Accessories',
+        'Film Cameras',
+        'Film',
+        'Mobile Photo and Video Accessories',
+        'Other'
+      ]
 
     };
     this.onChange = this.onChange.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);/* 
-    this.props.firebase.CreateGear = this.props.firebase.CreateGear.bind(this); */
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
   onChange(event) {
@@ -28,7 +46,6 @@ class CreateGearForm extends Component {
   }
 
   onSubmit = event => {
-    console.log("this.props", this.props)
     const item = {
       make: this.state.make,
       model: this.state.model,
@@ -45,7 +62,8 @@ class CreateGearForm extends Component {
     .catch(error => {
       console.log("props error", error);
       this.setState({ error });
-    }).then(() => {
+    })
+    .then(() => {
       this.setState({
         make: '',
         model: '',
@@ -71,26 +89,6 @@ class CreateGearForm extends Component {
       this.state.imageUrl === '' ||
       this.state.manualUrl === ''; */
 
-     const categories = [
-      'Digital Cameras',
-      'Lenses',
-      'Drones and Aerial',
-      'Tripods and Support',
-      'Memory Cards and Accessories',
-      'Batteries and Power Accessories',
-      'Flashes and On Camera Lighting',
-      'Photo Accessories',
-      'Lens Filters',
-      'Lens Accessories',
-      'Lighting',
-      'Computers and Accessories',
-      'Medium/Large Format Accessories',
-      'Film Cameras',
-      'Film',
-      'Mobile Photo and Video Accessories',
-      'Other'
-     ];
-
     return(
       <div>
         <h1>Create Item</h1>
@@ -106,7 +104,7 @@ class CreateGearForm extends Component {
           <label>
           Category:
             <select name="category" value={this.state.category} onChange={this.onChange}>
-              {categories.map((category, index) => {
+              {this.state.categories.map((category, index) => {
                 return (
                   <option key={index} name={category} value={category}>{category}</option>
                 )

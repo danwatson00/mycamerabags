@@ -1,0 +1,15 @@
+.top-nav-ul {
+  list-style-type: none;
+  float: right;
+}
+
+.top-nav-ul li {
+  display:inline;
+}
+
+.profile-pic {
+  width: 40px;
+  margin: 0 10px 0 10px;
+  border-radius: 50%;
+  border: 2px solid gray;
+}

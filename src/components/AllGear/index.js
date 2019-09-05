@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { withFirebase } from '../Firebase';
 import CreateGearForm from '../CreateGear';
 import GearCard from '../GearCard';
+import { withAuthentication } from '../Session';
 import './AllGear.css';
+import { AuthUserContext } from '../Session';
 
 class AllGear extends Component {
   constructor(props) {
@@ -28,49 +30,33 @@ class AllGear extends Component {
     })
   }
 
-  getUser = () => {
-    /* let authUser = localStorage.getItem('authUser');
-    let user = JSON.stringify(authUser)
-    let theUser = JSON.parse(user); */
-    /* this.setState({authUser: theUser}); */
-  }
-
-  getUid = () => {
-    Object.keys(this.state.authUser).map(key => {
-      console.log(this.state.authUser[key].uid);
-      return this.state.authUser;
-    })
-  }
-
   componentDidMount() {
     this.getGear();
-    this.getUser();
   }
 
   render() {
-    
+    let user = this.context;
+    console.log("context user", user);
     return(
       <div>
         <CreateGearForm getGear={this.getGear} />
         <h1>All Gear</h1>
         <div>
           {this.state.gearData.map((gear, key) => {
-              let item = {
-                description: gear.description,
-                make: gear.make,
-                model: gear.model,
-                imageUrl: gear.imageUrl,
-                buyNowUrl: gear.buyNowUrl,
-                category: gear.category,
-                subCategory: gear.subCategory,
-                manualUrl: gear.manualUrl,
-                specs: gear.specs,
-                reviews: gear.reviews
-              }
               return (
-                  <div className="gear-container" key={key}>
-                    <GearCard userId={this.state.authUser.uid} getGear={this.getGear} updateGear={() => this.props.firebase.addToUserGear(item)} deleteGear={() => this.props.firebase.deleteGear(item.uid)} item={item} />
-                  </div>
+                <div className="gear-container" key={key}>
+                  <AuthUserContext.Consumer>
+                    {authUser => (
+                      <GearCard 
+                        authUser={authUser} 
+                        getGear={this.getGear} 
+                        addToUserGear={this.props.firebase.addToUserGear} 
+                        deleteGear={() => this.props.firebase.deleteGear(gear.uid)} 
+                        item={gear}
+                      />
+                    )}
+                  </AuthUserContext.Consumer>
+                </div>
               )
             })
           }
@@ -80,4 +66,4 @@ class AllGear extends Component {
   }
 }
 
-export default withFirebase(AllGear);
+export default withAuthentication(withFirebase(AllGear));

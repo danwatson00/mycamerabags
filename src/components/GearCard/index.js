@@ -12,9 +12,14 @@ class GearCard extends Component {
     };
   }
 
+  addToUserGear(userGear) {
+    this.props.firebase.addToUserGear(this.props.authUser.uid, userGear);
+  }
+  
+
   render() {
     const userGear = {
-      userId: this.props.userId,
+      userId: this.props.authUser.uid,
       make: this.props.item.make ? this.props.item.make : '',
       model: this.props.item.model ? this.props.item.model : '',
       category: this.props.item.category ? this.props.item.category : '',
@@ -31,7 +36,8 @@ class GearCard extends Component {
         <img className="gear-card-image" src={this.props.item.imageUrl} alt={this.props.item.make + ' ' + this.props.item.model} />
         <h4>{this.props.item.make + ' ' + this.props.item.model}</h4>
         <Button class="btn btn-default" name="delete" label="Delete" click={this.props.deleteGear} />
-        <Button class="btn btn-default" name="add_to_user" label="Add to My Gear" click={() => this.props.firebase.addToUserGear(userGear)} />
+        <Button class="btn btn-default" name="add_to_user" label="Add to My Gear" click={() => this.addToUserGear(userGear)} />
+    {/* <Button class="btn btn-default" name="add_to_user" label="Add to My Gear" click={() => this.props.firebase.addToUserGear(this.props.authUser.uid, userGear)} /> */}
         <GearModal getGear={this.props.getGear} item={this.props.item} />
       </div>
     )

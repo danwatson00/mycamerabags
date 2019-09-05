@@ -113,11 +113,16 @@ class Firebase extends Component {
 
   // User Gear APIs ***
 
-  addToUserGear = (gearData) => this.db.collection('userGear').doc().set(gearData);
+  /* addToUserGear = (gearData) => this.db.collection('userGear').doc().set(gearData); */
+  addToUserGear = (userId, gearData) => this.db.collection('users').doc(userId).collection('userGear').doc().set(gearData).then((result) => {
+    console.log("hello");
+  });
 
   updateUserGear = (item, id) => this.db.collection('userGear').doc(id).update(item);
 
-  deleteUserGear = (id) => this.db.collection('userGear').doc(id).delete();
+  deleteUserGear = (userId, id) => this.db.collection(`users/${userId}/userGear`).doc(id).delete();
+
+  getMyGear = (userId) => this.db.collection(`users/${userId}/userGear`).get();
 
 }
 

@@ -32,7 +32,7 @@ class GearCard extends Component {
     }
 
     return (
-      <div className="gearCard">
+      <div className="gear-card">
         <img className="gear-card-image" src={this.props.item.imageUrl} alt={this.props.item.make + ' ' + this.props.item.model} />
         <h4>{this.props.item.make + ' ' + this.props.item.model}</h4>
         <Button class="btn btn-default" name="delete" label="Delete" click={this.props.deleteGear} />

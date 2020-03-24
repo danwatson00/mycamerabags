@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { withFirebase } from '../Firebase';
-import './UserGearCard.css';
+import './MyGearCard.css';
 import Button from '../Button';
 import GearModal from '../GearModal';
 
-class UserGearCard extends Component {
+class MyGearCard extends Component {
   constructor(props) {
     super(props);
 
@@ -14,7 +14,7 @@ class UserGearCard extends Component {
 
   render() {
     return (
-      <div className="gearCard">
+      <div className="gear-card" key={this.props.index}>
         <img className="gear-card-image" src={this.props.item.imageUrl} alt={this.props.item.make + ' ' + this.props.item.model} />
         <h4>{this.props.item.make + ' ' + this.props.item.model}</h4>
         <Button class="btn btn-default" name="delete" label="Delete" click={this.props.deleteGear(this.props.item.userID, this.props.item.uid)} />
@@ -24,4 +24,4 @@ class UserGearCard extends Component {
   }
 }
 
-export default withFirebase(UserGearCard);
+export default withFirebase(MyGearCard);

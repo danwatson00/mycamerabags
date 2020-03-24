@@ -6,6 +6,7 @@ import SignOutButton from '../SignOut';
 import * as ROUTES from '../../constants/routes';
 import * as ROLES from '../../constants/roles';
 import './Navigation.css';
+import userIcon from '../../images/user-icon.png';
 
 const Navigation = () => (
   <AuthUserContext.Consumer>
@@ -25,10 +26,7 @@ const NavigationAuth = ({ authUser }) => (
       <Link to={ROUTES.LANDING}>Landing</Link>
     </li>
     <li>
-      <Link to={ROUTES.HOME}>Home</Link>
-    </li>
-    <li>
-      <Link to={ROUTES.ACCOUNT}><img src={""} alt="user profile" className="profile-pic"></img></Link>
+      <Link to={ROUTES.ACCOUNT}><img src={authUser.photoURL ? authUser.photoURL : userIcon} alt="user profile" className="profile-pic"></img></Link>
     </li>
     {authUser.roles.includes(ROLES.ADMIN) && (
       <li>

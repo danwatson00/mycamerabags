@@ -1,9 +1,25 @@
-.create-my-gear-card {
+.bag-card {
   width: 200px;
   padding: 10px;
   margin: 15px;
+  text-align: center;
   border-radius: 5px;
   -webkit-box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.75);
   box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.75);
+}
+
+.bag-card-graphic {
+  display: block;
+  max-width: 100px;
+  max-height: 100px;
+  margin: 0 auto;
+}
+
+.modal-header {
+  margin-bottom: 20px;
+}
+
+.modal-header small {
+  margin-left: 10px;
 }

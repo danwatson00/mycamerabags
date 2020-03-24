@@ -1,0 +1,19 @@
+.app {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  grid-template-rows: 100px 1fr 200px;
+}
+
+.top-nav {
+  grid-row: 1;
+  grid-column: 2;
+}
+
+.sidebar {
+  grid-row: 1 / span 2;
+}
+
+.main {
+  grid-row: 2;
+  grid-column: 2;
+}

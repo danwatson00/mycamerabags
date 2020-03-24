@@ -105,7 +105,10 @@ class Firebase extends Component {
 
   getAllGear = () => this.db.collection('gear').get();
 
-  createGear = (gearData) => this.db.collection('gear').doc().set(gearData);
+  createGear = (gearData) => this.db.collection('gear').doc().set(gearData).then(result => {
+    if(result) {
+    }
+  });
 
   updateGear = (item, id) => this.db.collection('gear').doc(id).update(item);
 
@@ -114,9 +117,7 @@ class Firebase extends Component {
   // User Gear APIs ***
 
   /* addToUserGear = (gearData) => this.db.collection('userGear').doc().set(gearData); */
-  addToUserGear = (userId, gearData) => this.db.collection('users').doc(userId).collection('userGear').doc().set(gearData).then((result) => {
-    console.log("hello");
-  });
+  addToUserGear = (userId, gearData) => this.db.collection('users').doc(userId).collection('userGear').doc().set(gearData);
 
   updateUserGear = (item, id) => this.db.collection('userGear').doc(id).update(item);
 
@@ -124,6 +125,23 @@ class Firebase extends Component {
 
   getMyGear = (userId) => this.db.collection(`users/${userId}/userGear`).get();
 
+  getMyBags = userId => this.db.collection(`users/${userId}/userBags`).get();
+
+  createBag = (userId, bagData) => this.db.collection(`users/${userId}/userBags`).doc().set(bagData).then(snapshot => {
+    const item = snapshot.data();
+    console.log("item", item);
+    // merge auth and db user
+    let bag = {
+      uid: item.uid,
+      ...item,
+    };
+    this.updateBag(userId, item.uid, bag);
+    }
+  );
+  
+  deleteBag = (userId, bagId) => this.db.collection(`users/${userId}/userBags`).doc(bagId).delete();
+  
+  updateBag = (userId, bagId, bagData) => this.db.collection(`users/${userId}/userBags`).doc(bagId).update(bagData);
 }
 
 export default Firebase;

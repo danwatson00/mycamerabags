@@ -5,6 +5,7 @@ import GearCard from '../GearCard';
 import { withAuthentication } from '../Session';
 import './AllGear.css';
 import { AuthUserContext } from '../Session';
+import CreateGearModal from '../CreateGearModal';
 
 class AllGear extends Component {
   constructor(props) {
@@ -13,7 +14,7 @@ class AllGear extends Component {
     this.state = {
       gearData: [],
       error: '',
-      authUser: {}
+      createGearModalIsVisible: false
     };
   }
 
@@ -30,16 +31,25 @@ class AllGear extends Component {
     })
   }
 
+  renderCreateGearModal() {
+    return (
+      <CreateGearForm getGear={this.getGear} />
+    )
+  }
+
   componentDidMount() {
     this.getGear();
   }
 
   render() {
-    let user = this.context;
-    console.log("context user", user);
+    /* let user = this.context;
+    console.log("context user", user); */
     return(
-      <div>
-        <CreateGearForm getGear={this.getGear} />
+      <div id="all-gear">
+        <div className="create-gear">
+          <h2>Create New Gear</h2>
+          <CreateGearModal title="Create Gear"/>
+        </div>
         <h1>All Gear</h1>
         <div>
           {this.state.gearData.map((gear, key) => {
@@ -61,6 +71,9 @@ class AllGear extends Component {
             })
           }
         </div>
+          {this.state.isCreateGearModalVisible &&
+            this.renderCreateGearModal
+          }
       </div>
     );
   }

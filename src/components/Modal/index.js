@@ -8,24 +8,14 @@ class Modal extends Component {
     super(props);
 
     this.state = {
-      modalVisible: false
     };
-  }
-
-  openModal() {
-    this.setState({ modalVisible: true })
-  }
-
-  closeModal() {
-    this.setState({ modalVisible: false })
   }
 
   render() {
     return (
-      <div>
+      <div className="modal-container">
       <Button class="btn btn-default" label="More Info" click={() => this.openModal()} />
-        {this.state.modalVisible &&
-        <div className="modal-container">
+        <div>
           <div className="modal">
             <div className="modal-header">
               <h2 className="modal-title">{this.props.title}</h2>
@@ -38,7 +28,6 @@ class Modal extends Component {
             </div>
           </div>
         </div>
-        }
       </div>
 
     )

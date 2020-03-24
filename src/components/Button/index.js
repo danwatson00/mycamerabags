@@ -8,16 +8,15 @@ class Button extends Component {
 
     this.state = {
     };
-    this.handleClick = this.handleClick.bind(this)
   }
 
-  handleClick() {
-    console.log("click");
-    this.props.click()
+  handleClick = () => {
+    if (this.props.click) {
+      this.props.click()
+    }
   }
 
   render() {
-
     return (
       <div className="button">
         <button name={this.props.name} className={this.props.class} onClick={this.handleClick}>{this.props.label}</button>

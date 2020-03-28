@@ -3,6 +3,7 @@ import { withFirebase } from '../Firebase';
 import './GearCard.css';
 import Button from '../Button';
 import GearModal from '../GearModal';
+import * as Utilities from '../Utilities';
 
 class GearCard extends Component {
   constructor(props) {
@@ -13,7 +14,11 @@ class GearCard extends Component {
   }
 
   addToUserGear(userGear) {
-    this.props.firebase.addToUserGear(this.props.authUser.uid, userGear);
+    this.props.firebase.addToUserGear(this.props.authUser.uid, userGear).then(result => {
+      if(result) {
+        Utilities.sendSuccessMessage('The item has been successfully added to your gear.')
+      }
+    });
   }
   
 

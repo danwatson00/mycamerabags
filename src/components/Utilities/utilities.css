@@ -1,0 +1,10 @@
+.message {
+  position: absolute;
+  width: 90%;
+  color: white;
+  background-color: darkgray;
+  border-radius: 5px solid darkgrey;
+  min-height: 80px;
+  text-align: center;
+  z-index: 1000;
+}

@@ -56,9 +56,9 @@ class MyBags extends Component {
               return (
                 <div className="gear-container" key={index}>
                   <UserBagCard
-                    deleteBag={() => this.props.firebase.deleteBag.bind(this)}
-                    getMyGear={this.getMyBags.bind(this)}
+                    deleteBag={this.props.firebase.deleteBag.bind(this)}
                     bag={bag}
+                    getMyBags={this.getMyBags.bind(this)}
                   />
                 </div>
               )

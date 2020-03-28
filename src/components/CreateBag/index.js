@@ -21,7 +21,8 @@ class CreateBagForm extends Component {
   onSubmit = event => {
     const bag = {
       title: this.state.title,
-      description: this.state.description
+      description: this.state.description,
+      user: this.props.authUser.uid
     }
     console.log("bag", bag);
     event.preventDefault();

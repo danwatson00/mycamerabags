@@ -3,7 +3,7 @@ import { withFirebase } from '../Firebase';
 import './CreateMyGearModal.css';
 import Button from '../Button';
 import closeButton from '../../images/close-button.svg';
-import CreateUserGear from '../CreateUserGear'
+import CreateUserGear from '../CreateMyGear'
 
 class CreateMyGearModal extends Component {
   constructor(props) {

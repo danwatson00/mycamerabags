@@ -54,6 +54,7 @@ class SignUpFormBase extends Component {
           username,
           email,
           roles,
+          uid: authUser.user.uid
         },
         {
           merge: true

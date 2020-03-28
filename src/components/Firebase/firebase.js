@@ -81,7 +81,6 @@ class Firebase extends Component {
               providerData: authUser.providerData,
               ...dbUser,
             };
-
             next(authUser);
           });
       } else {
@@ -91,7 +90,7 @@ class Firebase extends Component {
 
   // *** User APIs ***
 
-  user = uid => this.db.doc(`users/${uid}`);
+  user = (uid) => this.db.doc(`users/${uid}`);
 
   users = () => this.db.collection('users');
 
@@ -105,9 +104,10 @@ class Firebase extends Component {
 
   getAllGear = () => this.db.collection('gear').get();
 
-  createGear = (gearData) => this.db.collection('gear').doc().set(gearData).then(result => {
-    if(result) {
-    }
+  createGear = (gearData) => this.db.collection('gear').add(gearData).then(function(docRef) {
+    docRef.update({
+      uid: docRef.id
+    });
   });
 
   updateGear = (item, id) => this.db.collection('gear').doc(id).update(item);
@@ -117,7 +117,11 @@ class Firebase extends Component {
   // User Gear APIs ***
 
   /* addToUserGear = (gearData) => this.db.collection('userGear').doc().set(gearData); */
-  addToUserGear = (userId, gearData) => this.db.collection('users').doc(userId).collection('userGear').doc().set(gearData);
+  addToUserGear = (userId, gearData) => this.db.collection('users').doc(userId).collection('userGear').add(gearData).then(function(docRef) {
+    docRef.update({
+      uid: docRef.id
+    });
+  });
 
   updateUserGear = (item, id) => this.db.collection('userGear').doc(id).update(item);
 
@@ -127,19 +131,15 @@ class Firebase extends Component {
 
   getMyBags = userId => this.db.collection(`users/${userId}/userBags`).get();
 
-  createBag = (userId, bagData) => this.db.collection(`users/${userId}/userBags`).doc().set(bagData).then(snapshot => {
-    const item = snapshot.data();
-    console.log("item", item);
-    // merge auth and db user
-    let bag = {
-      uid: item.uid,
-      ...item,
-    };
-    this.updateBag(userId, item.uid, bag);
-    }
-  );
+  createBag = (userId, bagData) => this.db.collection(`users/${userId}/userBags`).add(bagData).then(function(docRef) {
+    docRef.update({
+      uid: docRef.id
+    });
+  });
   
-  deleteBag = (userId, bagId) => this.db.collection(`users/${userId}/userBags`).doc(bagId).delete();
+  deleteBag = (userId, bagId) => this.db.collection(`users/${userId}/userBags`).doc(bagId).delete().then(docRef => {
+    console.log("docRef", docRef);
+  });
   
   updateBag = (userId, bagId, bagData) => this.db.collection(`users/${userId}/userBags`).doc(bagId).update(bagData);
 }

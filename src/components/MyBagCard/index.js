@@ -13,13 +13,19 @@ class MyBagCard extends Component {
     };
   }
 
+  deleteBag() {
+    this.props.firebase.deleteBag(this.props.bag.user, this.props.bag.uid).then(result => {
+        this.props.getMyBags();
+    });
+  }
+
   render() {
     return (
       <div className="bag-card">
         <img src={blankLogo} className="bag-card-graphic" alt="Camera Bag" />
         <h4 className="card-title">{this.props.bag.title}</h4>
         <MyBagModal getGear={this.props.getMyGear} item={this.props.bag} />
-        <Button class="btn btn-default" label="Delete Bag" click={this.props.deleteBag()} />
+        <Button class="btn btn-default" label="Delete Bag" click={this.deleteBag.bind(this)} />
       </div>
     )
   }

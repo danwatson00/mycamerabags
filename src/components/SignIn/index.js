@@ -112,6 +112,7 @@ class SignInGoogleBase extends Component {
             email: socialAuthUser.user.email,
             photoURL: socialAuthUser.user.photoURL,
             roles: [],
+            uid: socialAuthUser.user.uid
           },
           {
             merge: true
@@ -166,6 +167,7 @@ class SignInFacebookBase extends Component {
             username: socialAuthUser.additionalUserInfo.profile.name,
             email: socialAuthUser.additionalUserInfo.profile.email,
             roles: [],
+            uid: socialAuthUser.user.uid
           })
           .then(() => {
             this.setState({ error: null });
@@ -217,6 +219,7 @@ class SignInTwitterBase extends Component {
             username: socialAuthUser.additionalUserInfo.profile.name,
             email: socialAuthUser.additionalUserInfo.profile.email,
             roles: [],
+            uid: socialAuthUser.user.uid
           })
           .then(() => {
             this.setState({ error: null });

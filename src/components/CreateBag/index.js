@@ -22,9 +22,9 @@ class CreateBagForm extends Component {
     const bag = {
       title: this.state.title,
       description: this.state.description,
-      user: this.props.authUser.uid
+      user: this.props.authUser.uid,
+      bagGear: []
     }
-    console.log("bag", bag);
     event.preventDefault();
     this.props.firebase.createBag(this.props.authUser.uid, bag)
     .catch(error => {
@@ -34,7 +34,8 @@ class CreateBagForm extends Component {
     .then(() => {
       this.setState({
         title: '',
-        description: ''
+        description: '',
+        bagGear: []
       }, this.props.getMyBags())
     })
   }

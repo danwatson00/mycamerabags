@@ -1,0 +1,38 @@
+/* ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+} */
+
+.modal-body {
+  margin: 15px;
+}
+
+.my-bag-modal-image {
+  float: left;
+  width: 75px;
+  height: 75px;
+  border: 1px solid gray;
+}
+
+.my-bag-modal-desc {
+  width: 100%;
+}
+
+tr {
+  border-top: 1px solid black;
+  margin-bottom: 10px;
+  width: 100%
+}
+
+table, th, td {
+  border: 1px solid gray;
+}
+
+table {
+  margin-right: 0;
+}
+
+.sort-arrow {
+  width: 30px;
+}

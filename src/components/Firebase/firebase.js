@@ -137,11 +137,20 @@ class Firebase extends Component {
     });
   });
   
-  deleteBag = (userId, bagId) => this.db.collection(`users/${userId}/userBags`).doc(bagId).delete().then(docRef => {
-    console.log("docRef", docRef);
-  });
+  deleteBag = (userId, bagId) => this.db.collection(`users/${userId}/userBags`).doc(bagId).delete();
   
   updateBag = (userId, bagId, bagData) => this.db.collection(`users/${userId}/userBags`).doc(bagId).update(bagData);
+
+  addToUserBag = (userId, userGearId, userBagId, rank) => this.db.collection(`users/${userId}/userBags`).doc(userBagId).update({
+    bagGear: this.fieldValue.arrayUnion({ gearId: userGearId, rank: rank }) 
+  /* }).then(() => {
+      console.log("here");
+      this.getMyBags(userId); */
+  });
+
+  deleteFromUserBag = (userId, userGearId, userBagId) => this.db.collection(`users/${userId}/userBags`).doc(userBagId).update({
+    bagGear: this.fieldValue.arrayRemove(userGearId)
+  });
 }
 
 export default Firebase;

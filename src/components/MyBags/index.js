@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withFirebase } from '../Firebase';
 import Button from '../Button';
-import UserBagCard from '../MyBagCard';
+import MyBagCard from '../MyBagCard';
 import CreateBagForm from '../CreateBag';
 
 
@@ -30,9 +30,7 @@ class MyBags extends Component {
           data.push(item);
         });
       }).then(() => {
-        this.setState({
-          myBags: data
-        });
+        this.setState({ myBags: data });
       })
     }
   }
@@ -53,21 +51,15 @@ class MyBags extends Component {
         }
         <div className="my-bags-container">
           {this.state.myBags.map((bag, index) => {
-              return (
-                <div className="gear-container" key={index}>
-                  <UserBagCard
-                    deleteBag={this.props.firebase.deleteBag.bind(this)}
-                    bag={bag}
-                    getMyBags={this.getMyBags.bind(this)}
-                  />
-                </div>
-              )
-            })
-          }
-          <div className="create-bag-card">
-            <h4>Create A New Bag</h4>
-            
-          </div>
+            return (
+              <div className="gear-container" key={index}>
+                <MyBagCard
+                  deleteBag={this.props.firebase.deleteBag.bind(this)}
+                  bag={bag}
+                />
+              </div>
+            );
+          })}
         </div>
       </div>
     )

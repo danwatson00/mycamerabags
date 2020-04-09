@@ -9,7 +9,9 @@ class MyGear extends Component {
     super(props);
 
     this.state = {
-      myGear: []
+      myGear: [],
+      myBags: [],
+      selectedBagId: ''
     };
   }
 
@@ -28,11 +30,36 @@ class MyGear extends Component {
       })
     }
   }
+
+  getMyBags() {
+    let data = [];
+    if (this.props.authUser.uid) {
+      this.props.firebase.getMyBags(this.props.authUser.uid).then(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+          let item = doc.data();
+          data.push(item);
+        });
+      }).then(() => {
+        this.setState({
+          myBags: data
+        });
+      })
+    }
+  }
+  
+  addGearToBag(userId, gearId, selectedBagId, rank) {
+    this.props.firebase.addToUserBag(userId, gearId, selectedBagId, rank).then(() => {
+      this.getMyBags();
+    });
+  }
+
   createUserGear() {
 
   }
+
   componentDidMount() {
     this.getMyGear();
+    this.getMyBags();
   }
 
   render() {
@@ -47,7 +74,8 @@ class MyGear extends Component {
                       index={index}
                       deleteGear={() => this.props.firebase.deleteUserGear("gear.userId", "gear.uid")} 
                       item={gear}
-                      getMyGear={this.getMyGear.bind(this)}
+                      myBags={this.state.myBags}
+                      addGearToBag={this.addGearToBag.bind(this)}
                     />
                 )
             })}

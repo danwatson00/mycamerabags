@@ -12,8 +12,7 @@ class MyBags extends Component {
     this.state = {
       myBags: [],
       myGear: [],
-      showCreateBag: false,
-      selectedBagGear: []
+      showCreateBag: false
     };
     this.onClick = this.onClick.bind(this);
   }
@@ -45,17 +44,6 @@ class MyBags extends Component {
       }).then(() => {
         this.setState({ myGear: data }, this.getBagGear);
       })
-    }
-  }
-  getBagGear(selectedBagGear, myGear) {
-    let bagGear = [];
-    if (selectedBagGear.length > 0) {
-      selectedBagGear.sort((a, b) => (a.rank > b.rank) ? 1 : -1);
-      selectedBagGear.forEach(item => {
-        let gear = myGear.filter(gear => gear.uid === item.gearId);
-        bagGear.push(gear[0]);
-      });
-      this.setState({ selectedBagGear: bagGear });
     }
   }
   findIndexWithAttribute(array, attribute, value) {
@@ -114,7 +102,6 @@ class MyBags extends Component {
                   getMyBags={this.getMyBags.bind(this)}
                   moveUpRank={this.moveUpRank.bind(this)}
                   moveDownRank={this.moveDownRank.bind(this)}
-                  getBagGear={this.getBagGear.bind(this)}
                   saveBagGear={this.saveBagGear.bind(this)}
                   myGear={this.state.myGear}
                 />

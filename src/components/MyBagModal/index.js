@@ -37,7 +37,7 @@ class MyBagModal extends Component {
     this.props.saveBagGear(this.props.bag.uid, this.props.bag.bagGear);
   }
   renderGearRow(item, index) {
-    let gearItem = this.state.myGear.filter(x => x.uid === item.gearId);
+    let gearItem = this.props.myGear.filter(x => x.uid === item.gearId);
     return (
       <tr key={index}>
         <td>

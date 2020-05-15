@@ -12,87 +12,48 @@ class MyBagModal extends Component {
 
     this.state = {
       modalVisible: false,
-      myGear: [],
-      bagGear: []
+      editMode: false
     };
-    /* this.onChange = this.onChange.bind(this); */
   }
-
-  getMyGear() {
-    let data = [];
-    if (this.props.authUser) {
-      this.props.firebase.getMyGear(this.props.authUser.uid).then(function (querySnapshot) {
-        querySnapshot.forEach(function (doc) {
-          let item = doc.data();
-          data.push(item);
-        });
-      }).then(() => {
-        this.setState({ myGear: data }, this.getBagGear);
-      })
-    }
+  moveUpRank(index) {
+    this.props.moveUpRank(this.props.bag.uid, index);
   }
-
-  getBagGear() {
-    let bagGear = [];
-    if(this.props.bag.bagGear.length > 0) {
-      this.props.bag.bagGear.forEach(gearId => {
-        let gear = this.state.myGear.filter(gear => gear.uid === gearId);
-        bagGear.push(gear[0]);
-      });
-      this.setState({ bagGear });
-    }
+  moveDownRank(index) {
+    this.props.moveDownRank(this.props.bag.uid, index);
   }
-
-  getGreatestSortValue() {
-    Math.max.apply(Math, this.state.bagGear.map(function (gearItem) {
-      return gearItem.sortValue;
-    }))
-  }
-
   openModal() {
-    this.setState({ modalVisible: true })
+    this.setState({ modalVisible: true });
   }
-
   closeModal() {
-    this.setState({ modalVisible: false })
+    this.setState({ modalVisible: false });
   }
-
-/*   allowDrop(ev) {
-    ev.preventDefault();
+  handleCancelClick() {
+    this.setState({ editMode: false });
   }
-
-  drag(ev) {
-    ev.dataTransfer.setData("text", ev.target.id);
+  handleEditClick() {
+    this.setState({ editMode: true });
   }
-
-  drop(ev) {
-    ev.preventDefault();
-    var data = ev.dataTransfer.getData("text");
-    ev.target.appendChild(document.getElementById(data));
-  } */
-  /* onChange(event) {
-    this.setState({ [event.target.name]: event.target.value });
-  } */
-
+  handleSaveClick() {
+    this.props.saveBagGear(this.props.bag.uid, this.props.bag.bagGear);
+  }
   renderGearRow(item, index) {
+    let gearItem = this.state.myGear.filter(x => x.uid === item.gearId);
     return (
-      <tr key={index} /* draggable={true} ondragstart={(event) => this.drag(event)} */ >
+      <tr key={index}>
         <td>
-          <img className="my-bag-modal-image" src={item.imageUrl} alt={item.make + ' ' + item.model} />
+          <img className="my-bag-modal-image" src={gearItem[0].imageUrl} alt={gearItem[0].make + ' ' + gearItem[0].model} />
         </td>
         <td className="my-bag-modal-desc">
-          {item.make + ' ' + item.model}
+          {gearItem[0].make + ' ' + gearItem[0].model}
         </td>
-        <td>
-          <img className="sort-arrow clickable" src={upArrow} alt="sort up arrow" />
-          <img className="sort-arrow clickable" src={downArrow} alt="sort down arrow" />
+        {this.state.editMode &&
+          <td>
+            <img className="sort-arrow clickable" src={upArrow} alt="sort up arrow" onClick={() => this.moveUpRank(index)}/>
+            <img className="sort-arrow clickable" src={downArrow} alt="sort down arrow" onClick={() => this.moveDownRank(index)}/>
         </td>
+        }
       </tr>
     )
-  }
-
-  componentDidMount() {
-    this.getMyGear();
   }
 
   render() {
@@ -103,31 +64,37 @@ class MyBagModal extends Component {
         <div className="modal-container">
             <div className="modal">
               <div className="modal-header">
-                <img className="close-cross" loading="lazy" src={closeButton} alt="close button" onClick={() => this.closeModal()} />
+                <img className="close-cross" loading="lazy" width="35px" height="35px" src={closeButton} alt="close button" onClick={() => this.closeModal()} />
                 <h2 className="modal-title">{this.props.bag.title}</h2>
               </div>
               <div className="modal-body">
                 <h4>Description</h4>
                 <p>{this.props.bag.description}</p>
-                {/* <ul>
-                {this.state.bagGear.map((item, index) => {
-                  return (
-                    this.renderGearItem(item, index)
-                  );
-                })}
-              </ul> */}
-              <table>
-                {
-                  this.state.bagGear.map((item, index) => {
-                    return (
-                      this.renderGearRow(item, index)
-                    );
-                  })
-                }
-              </table>
+                <table>
+                  <tbody>
+                    {this.props.bag.bagGear.map((item, index) => {
+                        return (
+                          this.renderGearRow(item, index)
+                        );
+                      })
+                    }
+                  </tbody>
+                </table>
               </div>
               <div className="modal-footer">
-                <Button class="btn btn-default close-button" label="Close" click={() => this.closeModal()} />
+                {this.state.editMode &&
+                  <div>
+                    <Button class="btn cancel-button" label="Cancel" click={() => this.handleCancelClick()} />
+                    <Button class="btn save-button" label="Save Changes" click={() => this.handleSaveClick()} />
+                  </div>
+                }
+                {!this.state.editMode &&
+                  <div>
+                    <Button class="btn edit-button" label="Edit" click={() => this.handleEditClick()} />
+                    <Button class="btn btn-default close-button" label="Close" click={() => this.closeModal()} />
+                  </div>
+                }
+                
               </div>
             </div>
         </div>

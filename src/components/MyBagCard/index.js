@@ -27,10 +27,18 @@ class MyBagCard extends Component {
         <h4 className="card-title">{this.props.bag.title}</h4>
         <AuthUserContext.Consumer>
           {authUser =>
-            <MyBagModal bag={this.props.bag} authUser={authUser} firebase={this.props.firebase} />
+            <MyBagModal 
+              bag={this.props.bag} 
+              authUser={authUser} 
+              firebase={this.props.firebase} 
+              getMyBags={this.props.getMyBags}
+              moveUpRank={this.props.moveUpRank}
+              moveDownRank={this.props.moveDownRank}
+              saveBagGear={this.props.saveBagGear}
+              myGear={this.props.myGear}
+            />
           }
         </AuthUserContext.Consumer>
-        
         <Button class="btn btn-default" label="Delete Bag" click={this.deleteBag.bind(this)} />
       </div>
     )

@@ -141,6 +141,10 @@ class Firebase extends Component {
   
   updateBag = (userId, bagId, bagData) => this.db.collection(`users/${userId}/userBags`).doc(bagId).update(bagData);
 
+  updateBagGear = (userId, bagId, bagGear) => this.db.collection(`users/${userId}/userBags`).doc(bagId).update({ 
+    bagGear: bagGear 
+  });
+
   addToUserBag = (userId, userGearId, userBagId, rank) => this.db.collection(`users/${userId}/userBags`).doc(userBagId).update({
     bagGear: this.fieldValue.arrayUnion({ gearId: userGearId, rank: rank }) 
   /* }).then(() => {

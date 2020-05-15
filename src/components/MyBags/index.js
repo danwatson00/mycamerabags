@@ -11,16 +11,16 @@ class MyBags extends Component {
 
     this.state = {
       myBags: [],
-      showCreateBag: false
+      myGear: [],
+      showCreateBag: false,
+      selectedBagGear: []
     };
     this.onClick = this.onClick.bind(this);
   }
-  
 
   onClick() {
     this.setState({showCreateBag: !this.state.showCreateBag });
   }
-
   getMyBags() {
     let data = [];
     if (this.props.authUser.uid) {
@@ -34,9 +34,64 @@ class MyBags extends Component {
       })
     }
   }
-
+  getMyGear() {
+    let data = [];
+    if (this.props.authUser) {
+      this.props.firebase.getMyGear(this.props.authUser.uid).then(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+          let item = doc.data();
+          data.push(item);
+        });
+      }).then(() => {
+        this.setState({ myGear: data }, this.getBagGear);
+      })
+    }
+  }
+  getBagGear(selectedBagGear, myGear) {
+    let bagGear = [];
+    if (selectedBagGear.length > 0) {
+      selectedBagGear.sort((a, b) => (a.rank > b.rank) ? 1 : -1);
+      selectedBagGear.forEach(item => {
+        let gear = myGear.filter(gear => gear.uid === item.gearId);
+        bagGear.push(gear[0]);
+      });
+      this.setState({ selectedBagGear: bagGear });
+    }
+  }
+  findIndexWithAttribute(array, attribute, value) {
+    for(var i = 0; i < array.length; i += 1) {
+        if(array[i][attribute] === value) {
+            return i;
+        }
+    }
+    return -1;
+  }
+  moveUpRank(bagUid, index) {
+    let bagIndex = this.findIndexWithAttribute(this.state.myBags, 'uid', bagUid);
+    let myBags = this.state.myBags;
+    let selectedItemRank = myBags[bagIndex].bagGear[index].rank;
+    myBags[bagIndex].bagGear[index].rank = selectedItemRank - 1;
+    myBags[bagIndex].bagGear[index - 1].rank = selectedItemRank;
+    myBags[bagIndex].bagGear.sort((a, b) => (a.rank > b.rank) ? 1 : -1);
+    this.setState({ myBags });
+  }
+  moveDownRank(bagUid, index) {
+    let bagIndex = this.findIndexWithAttribute(this.state.myBags, 'uid', bagUid);
+    let myBags = this.state.myBags;
+    let selectedItemRank = myBags[bagIndex].bagGear[index].rank;
+    myBags[bagIndex].bagGear[index].rank = myBags[bagIndex].bagGear[index].rank + 1;
+    myBags[bagIndex].bagGear[index + 1].rank = selectedItemRank;
+    myBags[bagIndex].bagGear.sort((a, b) => (a.rank > b.rank) ? 1 : -1);
+    this.setState({ myBags });
+  }
+  saveBagGear(bagUid, bagGear) {
+    this.props.firebase.updateBagGear(this.props.authUser.uid, bagUid, bagGear).then(() => {
+      this.getMyBags();
+    });
+  }
   componentDidMount() {
     this.getMyBags();
+    this.getMyGear();
   }
 
   render() {
@@ -56,6 +111,12 @@ class MyBags extends Component {
                 <MyBagCard
                   deleteBag={this.props.firebase.deleteBag.bind(this)}
                   bag={bag}
+                  getMyBags={this.getMyBags.bind(this)}
+                  moveUpRank={this.moveUpRank.bind(this)}
+                  moveDownRank={this.moveDownRank.bind(this)}
+                  getBagGear={this.getBagGear.bind(this)}
+                  saveBagGear={this.saveBagGear.bind(this)}
+                  myGear={this.state.myGear}
                 />
               </div>
             );

@@ -70,13 +70,15 @@ class MyGear extends Component {
           <div className="my-gear-container">
             {this.state.myGear.map((gear, index) => {
                 return (
+                  <div key={index} className="gear-card">
                     <MyGearCard
-                      index={index}
+                      key={index}
                       deleteGear={() => this.props.firebase.deleteUserGear("gear.userId", "gear.uid")} 
                       item={gear}
                       myBags={this.state.myBags}
                       addGearToBag={this.addGearToBag.bind(this)}
                     />
+                  </div>
                 )
             })}
             <div className="create-my-gear-card">

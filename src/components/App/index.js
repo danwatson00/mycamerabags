@@ -11,6 +11,7 @@ import AccountPage from '../Account';
 import AdminPage from '../Admin';
 import Sidebar from '../Sidebar';
 import AllGear from '../AllGear';
+import AllBags from '../AllBags';
 import MyGear from '../MyGear';
 import MyBags from '../MyBags';
 import * as ROUTES from '../../constants/routes';
@@ -43,6 +44,7 @@ const App = () => (
         <AuthUserContext.Consumer>
           {authUser => (
             <div>
+              <Route exact path={ROUTES.ALL_BAGS} render={(props) => <AllBags {...props} authUser={authUser}/>} />
               <Route path={ROUTES.MY_GEAR} render={(props) => <MyGear {...props} authUser={authUser}/>} />              
               <Route path={ROUTES.MY_BAGS} render={(props) => <MyBags {...props} authUser={authUser} />} />
             </div>

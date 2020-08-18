@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { withFirebase } from '../Firebase';
 import './MyBag.css';
-import Button from '../Button';
-import * as Elements from '../Elements';
 
 class MyBag extends Component {
   constructor(props) {

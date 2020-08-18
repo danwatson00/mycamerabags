@@ -43,7 +43,10 @@ class GearCard extends Component {
         <Button class="btn btn-default" name="delete" label="Delete" click={this.props.deleteGear} />
         <Button class="btn btn-default" name="add_to_user" label="Add to My Gear" click={() => this.addToUserGear(userGear)} />
     {/* <Button class="btn btn-default" name="add_to_user" label="Add to My Gear" click={() => this.props.firebase.addToUserGear(this.props.authUser.uid, userGear)} /> */}
-        <GearModal getGear={this.props.getGear} item={this.props.item} />
+        <GearModal 
+          getGear={this.props.getGear} 
+          item={this.props.item} 
+        />
       </div>
     )
   }

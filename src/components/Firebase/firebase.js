@@ -24,6 +24,7 @@ class Firebase extends Component {
    /*  Firebase APIs */
     this.auth = app.auth();
     this.db = app.firestore();
+    this.storage = app.storage();
 
     this.googleProvider = new app.auth.GoogleAuthProvider();
     this.facebookProvider = new app.auth.FacebookAuthProvider();
@@ -94,6 +95,8 @@ class Firebase extends Component {
 
   users = () => this.db.collection('users');
 
+  getAllUsers = () => this.db.collection('users').get();
+
   // *** Message APIs ***
 
   message = uid => this.db.doc(`messages/${uid}`);
@@ -102,7 +105,25 @@ class Firebase extends Component {
   
   // *** Global Gear APIs ***
 
+  getAllUsersBags = () => {
+    let users = this.getAllUsers();
+    let allGear = [];
+    users.forEach(x => {
+      let bags = this.getMyBags(x.uid);
+      allGear.push(bags);
+    });
+  }
   getAllGear = () => this.db.collection('gear').get();
+
+/*   getAllBags = () => this.users.forEach(user => {
+    let allUsersBags = [];
+    let userBags = this.db.collection('users').doc(user.uid).collection('userBags');
+    allUsersBags.push(userBags);
+    return allUsersBags;
+  }); */
+  getAllBags = () => this.db.collectionGroup('userBags').get();
+
+  getAllUsersData = () => this.db.collection('users').get();
 
   createGear = (gearData) => this.db.collection('gear').add(gearData).then(function(docRef) {
     docRef.update({

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withFirebase } from '../Firebase';
 import './CreateGear.css';
+import FileUpload from '../FileUpload';
 
 class CreateGearForm extends Component {
   constructor(props) {
@@ -93,16 +94,16 @@ class CreateGearForm extends Component {
       <div>
         <h1>Create Item</h1>
         <form onSubmit={this.onSubmit}>
-          <label>
-            Make:
+          <div>
+            <label>Make: </label>
             <input type="text" name="make" value={this.state.make} onChange={this.onChange}/>
-          </label>
-          <label>
-            Model:
+          </div>
+          <div>
+            <label>Model:</label>
             <input type="text" name="model" value={this.state.model} onChange={this.onChange}/>
-          </label>
-          <label>
-          Category:
+          </div>
+          <div>
+            <label>Category:</label>
             <select name="category" value={this.state.category} onChange={this.onChange}>
               {this.state.categories.map((category, index) => {
                 return (
@@ -110,35 +111,36 @@ class CreateGearForm extends Component {
                 )
               })}
             </select>
-          </label>
-          <label>
-            SubCategory:
+          </div>
+          <div>
+            <label>SubCategory:</label>
             <input type="text" name="subCategory" value={this.state.subCategory} onChange={this.onChange} />
-          </label>
-          <label>
-            Description:
+          </div>
+          <div>
+            <label>Description:</label>
             <input type="textarea" name="description" value={this.state.description} onChange={this.onChange} />
-          </label>
-          <label>
-            ImageUrl:
+          </div>
+          <div>
+            <label>Gear Image:</label>
+            <FileUpload />
+            <button>Image URL</button>
+            <label>Url:</label>
             <input type="text" name="imageUrl" value={this.state.imageUrl} onChange={this.onChange} />
-          </label>
-          <label>
-            Instructions/Manual:
+          </div>
+          <div>
+            <label>Instructions/Manual:</label>
             <input type="text" name="manualUrl" value={this.state.manualUrl} onChange={this.onChange} />
-          </label>
-          <label>
-            Reviews:
+          </div>
+          <div>
+            <label>Reviews:</label>
             <input type="text" name="reviews" value={this.state.reviews} onChange={this.onChange} />
-          </label>
-          <label>
-            Specs:
+          </div>
+            <label>Specs:</label>
             <input type="text" name="specs" value={this.state.specs} onChange={this.onChange} />
-          </label>
-          <label>
-            Buy New Url:
+          <div>
+            <label>Buy New Url:</label>
             <input type="text" name="buyNewUrl" value={this.state.buyNewUrl} onChange={this.onChange} />
-          </label>
+          </div>
           <input type="submit" value="Submit" />
         </form>
       </div>

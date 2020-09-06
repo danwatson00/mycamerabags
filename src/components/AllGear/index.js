@@ -18,7 +18,7 @@ class AllGear extends Component {
     };
   }
 
-  getGear = () => {
+  getAllGear = () => {
     let data = [];
     this.props.firebase.getAllGear().then(function (querySnapshot) {
       querySnapshot.forEach(function (doc) {
@@ -38,7 +38,7 @@ class AllGear extends Component {
   }
 
   componentDidMount() {
-    this.getGear();
+    this.getAllGear();
   }
 
   render() {
@@ -48,21 +48,26 @@ class AllGear extends Component {
       <div id="all-gear">
         <div className="create-gear">
           <h2>Create New Gear</h2>
-          <CreateGearModal title="Create Gear"/>
+          <CreateGearModal 
+            getAllGear={this.getAllGear.bind(this)} 
+            title="Create Gear"
+          />
         </div>
         <h1>All Gear</h1>
         <div>
           {this.state.gearData.map((gear, key) => {
+            /* let imageUrl = this.props.firebase.downloadImage(gear.imagePath); */
               return (
                 <div className="gear-container" key={key}>
                   <AuthUserContext.Consumer>
                     {authUser => (
                       <GearCard 
                         authUser={authUser} 
-                        getGear={this.getGear} 
+                        getAllGear={this.getAllGear.bind(this)} 
                         addToUserGear={this.props.firebase.addToUserGear} 
                         deleteGear={() => this.props.firebase.deleteGear(gear.uid)} 
                         item={gear}
+                        /* imageUrl={imageUrl} */
                       />
                     )}
                   </AuthUserContext.Consumer>
@@ -72,7 +77,7 @@ class AllGear extends Component {
           }
         </div>
           {this.state.isCreateGearModalVisible &&
-            this.renderCreateGearModal
+            this.renderCreateGearModal()
           }
       </div>
     );

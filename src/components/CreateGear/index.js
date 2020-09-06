@@ -6,17 +6,16 @@ import FileUpload from '../FileUpload';
 class CreateGearForm extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      make:'',
-      model:'',
-      category:'',
-      subCategory:'',
-      imageUrl: '',
-      description: '',
-      manualUrl: '',
-      specs: '',
-      buyNewUrl: '',
+      make: this.props.isEditMode ? this.props.item.make  : '',
+      model: this.props.isEditMode ? this.props.item.model : '',
+      category: this.props.isEditMode ? this.props.item.category : '',
+      subCategory: this.props.isEditMode ? this.props.item.subCategory : '',
+      imageUrl: this.props.isEditMode ? this.props.item.imageUrl : '',
+      description: this.props.isEditMode ? this.props.item.description : '',
+      manualUrl: this.props.isEditMode ? this.props.item.manualUrl : '',
+      specs: this.props.isEditMode ? this.props.item.specs : '',
+      buyNewUrl: this.props.isEditMode ? this.props.item.buyNewUrl : '',
       categories: [
         'Digital Cameras',
         'Lenses',
@@ -38,12 +37,23 @@ class CreateGearForm extends Component {
       ]
 
     };
-    this.onChange = this.onChange.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
+    /* this.onChange = this.onChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this); */
   }
 
-  onChange(event) {
+  onChange = event => {
     this.setState({ [event.target.name]: event.target.value });
+  }
+
+  saveImage(file) {
+   const storageRef = this.props.firebase.storage.ref();
+   const imagesRef = storageRef.child('images');
+   const imageRef = imagesRef.child(file.name);
+   imageRef.put(file).then((reference) => {
+     storageRef.child(reference.metadata.fullPath).getDownloadURL().then((url) => {
+       this.setState({ imageUrl: url });
+     });
+   });;
   }
 
   onSubmit = event => {
@@ -75,7 +85,7 @@ class CreateGearForm extends Component {
         manualUrl: '',
         specs: '',
         buyNewUrl: ''
-      }, this.props.getGear())
+      }, () => this.props.getAllGear());
     })
   }
 
@@ -92,10 +102,10 @@ class CreateGearForm extends Component {
 
     return(
       <div>
-        <h1>Create Item</h1>
+        <h1>{this.props.isEditMode ? 'Edit Gear' : 'Create Item'}</h1>
         <form onSubmit={this.onSubmit}>
           <div>
-            <label>Make: </label>
+            <label>Make:</label>
             <input type="text" name="make" value={this.state.make} onChange={this.onChange}/>
           </div>
           <div>
@@ -122,7 +132,9 @@ class CreateGearForm extends Component {
           </div>
           <div>
             <label>Gear Image:</label>
-            <FileUpload />
+            <FileUpload
+              saveImage={this.saveImage.bind(this)}
+            />
             <button>Image URL</button>
             <label>Url:</label>
             <input type="text" name="imageUrl" value={this.state.imageUrl} onChange={this.onChange} />

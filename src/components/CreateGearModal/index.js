@@ -39,7 +39,9 @@ class CreateGearModal extends Component {
                 <img className="close-cross" loading="lazy" src={closeButton} alt="close button" onClick={() => this.closeModal()} />
               </div>
               <div className="modal-body">
-              <CreateGear />
+              <CreateGear 
+                getAllGear={this.props.getAllGear}
+              />
               </div>
               <div className="modal-footer">
                 <Button class="btn btn-default cancel-button" label="Cancel" click={() => this.closeModal()} />

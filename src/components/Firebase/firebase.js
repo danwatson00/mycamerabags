@@ -116,12 +116,6 @@ class Firebase extends Component {
   }
   getAllGear = () => this.db.collection('gear').get();
 
-/*   getAllBags = () => this.users.forEach(user => {
-    let allUsersBags = [];
-    let userBags = this.db.collection('users').doc(user.uid).collection('userBags');
-    allUsersBags.push(userBags);
-    return allUsersBags;
-  }); */
   getAllBags = () => this.db.collectionGroup('userBags').get();
 
   getAllUsersData = () => this.db.collection('users').get();
@@ -168,15 +162,36 @@ class Firebase extends Component {
   });
 
   addToUserBag = (userId, userGearId, userBagId, rank) => this.db.collection(`users/${userId}/userBags`).doc(userBagId).update({
-    bagGear: this.fieldValue.arrayUnion({ gearId: userGearId, rank: rank }) 
-  /* }).then(() => {
-      console.log("here");
-      this.getMyBags(userId); */
+    bagGear: this.fieldValue.arrayUnion({ gearId: userGearId, rank: rank })
   });
 
   deleteFromUserBag = (userId, userGearId, userBagId) => this.db.collection(`users/${userId}/userBags`).doc(userBagId).update({
     bagGear: this.fieldValue.arrayRemove(userGearId)
   });
+
+  saveImage = (file) => {
+    const storageRef = this.storage.ref();
+    const imagesRef = storageRef.child('images');
+    const imageRef = imagesRef.child(file.name);
+    imageRef.put(file).then(function (reference) {
+      console.log('Uploaded a blob or file!', reference.metadata.fullPath);
+      storageRef.child(reference.metadata.fullPath).getDownloadURL().then((url) => {
+        console.log("url", url);
+        return url;
+      });
+    });;
+  }
+
+  downloadImage = (filePath) => {
+    const storageRef = this.storage.ref();
+    storageRef.child(filePath).getDownloadURL().then((url) => {
+      console.log("url", url);
+      return url;
+    }).catch((error) => {
+      console.log("download error", error);
+    });
+  
+  }
 }
 
 export default Firebase;

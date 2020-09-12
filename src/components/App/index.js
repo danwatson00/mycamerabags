@@ -22,7 +22,7 @@ import './App.css';
 
 const App = () => {
 
-  const [cookiesWarningVisible, setCookiesWarningVisible] = useState(false);
+  const [cookiesWarningVisible, setCookiesWarningVisible] = useState(true);
   const [cookiesModalVisible, setCookiesModalVisible] = useState(false);
 
   function handleHideCookiesWarning() {

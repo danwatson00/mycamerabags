@@ -137,6 +137,8 @@ class Firebase extends Component {
     docRef.update({
       uid: docRef.id
     });
+  }).catch(error => {
+    console.log("error", error);
   });
 
   updateUserGear = (item, id) => this.db.collection('userGear').doc(id).update(item);

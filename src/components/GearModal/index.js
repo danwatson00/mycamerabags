@@ -3,9 +3,9 @@ import { withFirebase } from '../Firebase';
 import './GearModal.css';
 import Button from '../Button';
 import closeButton from '../../images/close-button.svg';
-import CreateGearForm from '../CreateGear';
+import GearForm from '../GearForm';
 
-class Modal extends Component {
+class GearModal extends Component {
   constructor(props) {
     super(props);
 
@@ -41,16 +41,7 @@ class Modal extends Component {
         'Other'
       ]
     };
-    this.onChange = this.onChange.bind(this);
   }
-
-/*   openModal() {
-    this.setState({ modalVisible: true })
-  }
-
-  closeModal() {
-    this.setState({ modalVisible: false })
-  } */
 
   onSubmit = event => {
     const item = {};
@@ -119,49 +110,47 @@ class Modal extends Component {
 
   render() {
     return (
-      <div>
-        <div className="modal-container">
-          <div className="modal">
-            {!this.state.editMode &&
-              <div className="modal-header">
-                <img className="close-cross" loading="lazy" src={closeButton} alt="close button" onClick={() => this.props.hideGearModal()} />
-                <h2 className="modal-title">{this.props.item.make + ' ' + this.props.item.model}</h2><br />
-                <small>Category: {this.props.item.category}: {this.props.item.subCategory}</small>
-              </div>
-            }
-            {this.state.editMode &&
-              <div className="modal-header">
-                <h2>Edit</h2>
-              </div>
-            }
-            <div className="modal-body">
-              {!this.state.editMode && 
-                this.renderInfoMode()
-              }
-              {this.state.editMode &&
-                <CreateGearForm
-                  isEditMode={true}
-                  item={this.props.item}
-                />
-              }
+      <div className="modal-container">
+        <div className="modal">
+          {!this.state.editMode &&
+            <div className="modal-header">
+              <img className="close-cross" loading="lazy" src={closeButton} alt="close button" onClick={() => this.props.hideGearModal()} />
+              <h2 className="modal-title">{this.props.item.make + ' ' + this.props.item.model}</h2><br />
+              <small>Category: {this.props.item.category}: {this.props.item.subCategory}</small>
             </div>
-            {this.state.editMode &&
-              <div className="modal-footer">
-                <Button class="btn btn-default cancel-button" label="Cancel" click={() => this.props.hideGearModal()} />
-                <Button class="btn btn-default" label="Edit" click={() => this.onSubmit()} />
-              </div>
+          }
+          {this.state.editMode &&
+            <div className="modal-header">
+              <h2>Edit</h2>
+            </div>
+          }
+          <div className="modal-body">
+            {!this.state.editMode && 
+              this.renderInfoMode()
             }
-            {!this.state.editMode &&
-              <div className="modal-footer">
-                <Button class="btn btn-default" label="Update" click={() => this.onClick()} />
-                <Button class="btn btn-default close-button" label="Close" click={() => this.props.hideGearModal()} />
-              </div>
+            {this.state.editMode &&
+              <GearForm
+                isEditMode={true}
+                item={this.props.item}
+              />
             }
           </div>
+          {this.state.editMode &&
+            <div className="modal-footer">
+              <Button class="btn btn-default cancel-button" label="Cancel" click={() => this.props.hideGearModal()} />
+              <Button class="btn btn-default" label="Edit" click={() => this.onSubmit()} />
+            </div>
+          }
+          {!this.state.editMode &&
+            <div className="modal-footer">
+              <Button class="btn btn-default" label="Edit" click={() => this.onClick()} />
+              <Button class="btn btn-default close-button" label="Close" click={() => this.props.hideGearModal()} />
+            </div>
+          }
         </div>
       </div>
     );
   }
 }
 
-export default withFirebase(Modal);
+export default withFirebase(GearModal);

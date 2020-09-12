@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { withFirebase } from '../Firebase';
-import CreateGearForm from '../CreateGear';
 import GearCard from '../GearCard';
 import { withAuthentication } from '../Session';
 import './AllGear.css';
 import { AuthUserContext } from '../Session';
-import CreateGearModal from '../CreateGearModal';
+import GearModal from '../GearModal';
+import Button from '../Button';
 
 class AllGear extends Component {
   constructor(props) {
@@ -14,7 +14,7 @@ class AllGear extends Component {
     this.state = {
       gearData: [],
       error: '',
-      createGearModalIsVisible: false
+      gearModalVisible: false
     };
   }
 
@@ -31,14 +31,16 @@ class AllGear extends Component {
     })
   }
 
-  renderCreateGearModal() {
-    return (
-      <CreateGearForm getGear={this.getGear} />
-    )
-  }
-
   componentDidMount() {
     this.getAllGear();
+  }
+
+  showGearModal() {
+    this.setState({ gearModalVisible: true });
+  }
+
+  hideGearModal() {
+    this.setState({ gearModalVisible: false });
   }
 
   render() {
@@ -48,10 +50,7 @@ class AllGear extends Component {
       <div id="all-gear">
         <div className="create-gear">
           <h2>Create New Gear</h2>
-          <CreateGearModal 
-            getAllGear={this.getAllGear.bind(this)} 
-            title="Create Gear"
-          />
+          <Button class="btn btn-default" label="CreateGear" click={() => this.onClick()} />
         </div>
         <h1>All Gear</h1>
         <div>
@@ -76,8 +75,11 @@ class AllGear extends Component {
             })
           }
         </div>
-          {this.state.isCreateGearModalVisible &&
-            this.renderCreateGearModal()
+          {this.state.gearModalVisible &&
+            <GearModal 
+              hideModal={this.hideGearModal.bind(this)}
+              isEditMode={false}
+            />
           }
       </div>
     );

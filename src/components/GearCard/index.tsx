@@ -22,9 +22,10 @@ const GearCard: FC<GearCardProps> = (props) => {
     setGearCardState(props);
   }, [props]);
   
-  function addToUserGear(userGear: UserGearItem) {
-    props.firebase.addToUserGear(gearCardState.authUser.uid, userGear).then(result => {
-      if(result) {
+  function addToUserGear() {
+    props.firebase.addToUserGear(gearCardState.authUser.uid, userGear).then(function(querySnapshot) {
+      console.log("result", querySnapshot);
+      if(querySnapshot) {
         Utilities.sendSuccessMessage('The item has been successfully added to your gear.')
       }
     });
@@ -56,9 +57,8 @@ const GearCard: FC<GearCardProps> = (props) => {
       <img className="gear-card-image" src={gearCardState.item.imageUrl} alt={gearCardState.item.make + ' ' + gearCardState.item.model} />
       <h4>{gearCardState.item.make + ' ' + gearCardState.item.model}</h4>
       <Button class="btn btn-default" name="delete" label="Delete" click={gearCardState.deleteGear} />
-      <Button class="btn btn-default" name="add_to_user" label="Add to My Gear" click={() => addToUserGear(userGear)} />
-      <Button class="btn btn-default" name="add_to_user" label="Add to My Gear" click={() => gearCardState.firebase.addToUserGear(gearCardState.authUser.uid, userGear)} />
-      <Button class="btn btn-default" name="show_gear_modal" label="More Info" click={() => showGearModal()} />
+      <Button class="btn btn-default" name="add_to_user" label="Add to Gear" click={addToUserGear} />
+      <Button class="btn btn-default" name="show_gear_modal" label="More Info" click={showGearModal} />
       
       {gearModalVisible &&
         <GearModal

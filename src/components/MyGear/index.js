@@ -49,6 +49,7 @@ class MyGear extends Component {
   
   addGearToBag(userId, gearId, selectedBagId, rank) {
     this.props.firebase.addToUserBag(userId, gearId, selectedBagId, rank).then(() => {
+      console.log("addToBag worked")
       this.getMyBags();
     });
   }
@@ -77,6 +78,7 @@ class MyGear extends Component {
                       item={gear}
                       myBags={this.state.myBags}
                       addGearToBag={this.addGearToBag.bind(this)}
+                      getMyGear={this.getMyGear.bind(this)}
                     />
                   </div>
                 )

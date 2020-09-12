@@ -8,6 +8,7 @@ interface AuthUser {
 }
 
 interface GlobalGearItem {
+  uid: string;
   make: string;
   model: string;
   category: string;
@@ -20,6 +21,7 @@ interface GlobalGearItem {
 }
 
 interface UserGearItem {
+  uid: string;
   userId: string;
   make: string;
   model: string;
@@ -52,12 +54,12 @@ interface FirebaseTypes {
   getAllGear(): void;
   getAllBags(): void;
   getAllUsersData(): void;
-  createGear(gearData: any): void;
-  updateGear(item: any, id: string): void;
+  createGear(gearData: any): Promise<any>;
+  updateGear(item: any, id: string): Promise<any>
   deleteGear(id: string): void;
   addToUserGear(userId: string, gearData: any): Promise<any>;
   updateUserGear(item: any, id: string): void;
-  deleteUserGear(userId: string, id: string): void;
+  deleteUserGear(userId: string, id: string): Promise<any>;
   getMyGear(userId: string): void;
   getMyBags(userId: string): void;
   createBag(userId: string, bagData: any): void;
@@ -69,11 +71,23 @@ interface FirebaseTypes {
   saveImage(itemUid: string, file: File): string;
   downloadImage(filePath: string): Promise<any>;
   storage: any;
+  db: any;
+}
+
+interface MyBags {
+  [x: string]: any;
+  [index: number]: {
+    description: string;
+    title: string;
+    uid: string;
+    user: string;
+  }
 }
 
 export type {
   AuthUser,
   FirebaseTypes,
   GlobalGearItem,
-  UserGearItem
+  UserGearItem,
+  MyBags
 }

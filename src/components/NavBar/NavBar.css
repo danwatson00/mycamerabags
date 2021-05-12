@@ -1,0 +1,29 @@
+ul {
+  list-style-type: none;
+  display: inline;
+}
+
+.nav-btn, .logo a {
+  text-decoration: none;
+  color: #FFFFFF;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 15px;
+  text-decoration: none;
+}
+
+/* li a:first-child {
+  padding-left: 0;
+} */
+
+li a:hover {
+  background-color: #111111;
+}

@@ -59,16 +59,22 @@ class MyBags extends Component {
     let myBags = this.state.myBags;
     let selectedItemRank = myBags[bagIndex].bagGear[index].rank;
     myBags[bagIndex].bagGear[index].rank = selectedItemRank - 1;
-    myBags[bagIndex].bagGear[index - 1].rank = selectedItemRank;
+    if (myBags[bagIndex].bagGear[index - 1]) {
+      myBags[bagIndex].bagGear[index - 1].rank = selectedItemRank;
+    }
     myBags[bagIndex].bagGear.sort((a, b) => (a.rank > b.rank) ? 1 : -1);
     this.setState({ myBags });
   }
   moveDownRank(bagUid, index) {
     let bagIndex = this.findIndexWithAttribute(this.state.myBags, 'uid', bagUid);
     let myBags = this.state.myBags;
-    let selectedItemRank = myBags[bagIndex].bagGear[index].rank;
-    myBags[bagIndex].bagGear[index].rank = myBags[bagIndex].bagGear[index].rank + 1;
-    myBags[bagIndex].bagGear[index + 1].rank = selectedItemRank;
+    //let selectedItemRank = myBags[bagIndex].bagGear[index].rank;
+    //myBags[bagIndex].bagGear[index].rank = myBags[bagIndex].bagGear[index].rank + 1;
+    myBags[bagIndex].bagGear[index].rank++;
+    if (myBags[bagIndex].bagGear[index + 1]) {
+      //myBags[bagIndex].bagGear[index + 1].rank = selectedItemRank;
+      myBags[bagIndex].bagGear[index + 1].rank--;
+    }
     myBags[bagIndex].bagGear.sort((a, b) => (a.rank > b.rank) ? 1 : -1);
     this.setState({ myBags });
   }
@@ -109,6 +115,7 @@ class MyBags extends Component {
             );
           })}
         </div>
+        <div>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
       </div>
     )
   }

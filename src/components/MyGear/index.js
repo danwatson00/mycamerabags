@@ -3,6 +3,7 @@ import { withFirebase } from '../Firebase';
 import MyGearCard from '../MyGearCard';
 import './MyGear.css';
 import CreateMyGearModal from '../CreateMyGearModal';
+import Button from '../Button';
 
 class MyGear extends Component {
   constructor(props) {
@@ -11,7 +12,8 @@ class MyGear extends Component {
     this.state = {
       myGear: [],
       myBags: [],
-      selectedBagId: ''
+      selectedBagId: '',
+      createModalVisible: false
     };
   }
 
@@ -54,8 +56,12 @@ class MyGear extends Component {
     });
   }
 
-  createUserGear() {
+  openModal() {
+    this.setState({ createModalVisible: true })
+  }
 
+  handleHideModal() {
+    this.setState({ createModalVisible: false });
   }
 
   componentDidMount() {
@@ -66,7 +72,10 @@ class MyGear extends Component {
   render() {
     return(
       <div>
-        <h1>My Gear</h1>
+        <div style={{ marginTop: 15 }}>
+          <h2 className="inline">My Gear</h2>
+          <button class="btn btn-default pull-right" label="Create Gear" onClick={() => this.openModal()}>Create New Item</button>
+        </div>
         {this.props.authUser &&
           <div className="my-gear-container">
             {this.state.myGear.map((gear, index) => {
@@ -83,10 +92,11 @@ class MyGear extends Component {
                   </div>
                 )
             })}
-            <div className="create-my-gear-card">
-              <h4>Create A New Item</h4>
-              <CreateMyGearModal />
-            </div>
+            {this.state.createModalVisible &&
+              <CreateMyGearModal 
+                handleHideModal={this.handleHideModal.bind(this)}
+              />
+            }
           </div>
         }
       </div>

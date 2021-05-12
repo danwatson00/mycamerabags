@@ -2,7 +2,7 @@ import React, { FC, useState, useEffect } from 'react';
 import { withFirebase } from '../Firebase';
 import './CreateGear.css';
 import FileUpload from '../FileUpload';
-import { FirebaseTypes, GlobalGearItem } from '../../constants/types';
+import { FirebaseTypes, GlobalGearItem, AuthUser } from '../../constants/types';
 
 interface MyGearFormProps {
   isEditMode: Boolean;
@@ -10,6 +10,7 @@ interface MyGearFormProps {
   firebase: FirebaseTypes;
   getAllGear(): void;
   hideModal(): void;
+  authUser: AuthUser;
 }
 
 const MyGearForm: FC<MyGearFormProps> = (props) => {
@@ -55,18 +56,20 @@ const MyGearForm: FC<MyGearFormProps> = (props) => {
     });;
   }
 
+  const item = {
+    make: make,
+    model: model,
+    category: category,
+    subCategory: subCategory,
+    imageUrl: imageUrl,
+    description: description,
+    manualUrl: manualUrl,
+    specs: specs,
+    buyNewUrl: buyNewUrl,
+    userId: props.authUser.uid
+  }
+
   function onSubmit(event: React.FormEvent<HTMLFormElement>) {
-    const item = {
-      make: make,
-      model: model,
-      category: category,
-      subCategory: subCategory,
-      imageUrl: imageUrl,
-      description: description,
-      manualUrl: manualUrl,
-      specs: specs,
-      buyNewUrl: buyNewUrl
-    }
     event.preventDefault();
     if (props.isEditMode) {
       props.firebase.updateGear(item, props.item.uid).then(() => {
@@ -85,7 +88,7 @@ const MyGearForm: FC<MyGearFormProps> = (props) => {
         console.log("error", error);
       });
     } else {
-      props.firebase.createGear(item).then(() => {
+      props.firebase.createUserGear(item, props.authUser.uid).then(() => {
         setMake('');
         setModel('');
         setCategory('');

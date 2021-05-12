@@ -141,7 +141,7 @@ class SignInGoogleBase extends Component {
 
     return (
       <form onSubmit={this.onSubmit}>
-        <button type="submit">Sign In with Google</button>
+        <button type = "submit"> {this.props.isSignUp ? 'Sign Up with Google' : 'Sign In with Google'}</button>
 
         {error && <p>{error.message}</p>}
       </form>
@@ -193,7 +193,7 @@ class SignInFacebookBase extends Component {
 
     return (
       <form onSubmit={this.onSubmit}>
-        <button type="submit">Sign In with Facebook</button>
+        <button type="submit">{this.props.isSignUp ? 'Sign Up with Facebook' : 'Sign In with Facebook'}</button>
 
         {error && <p>{error.message}</p>}
       </form>
@@ -245,7 +245,7 @@ class SignInTwitterBase extends Component {
 
     return (
       <form onSubmit={this.onSubmit}>
-        <button type="submit">Sign In with Twitter</button>
+        <button type="submit">{this.props.isSignUp ? 'Sign Up with Twitter' : 'Sign In with Twitter'}</button>
 
         {error && <p>{error.message}</p>}
       </form>

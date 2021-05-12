@@ -1,6 +1,8 @@
-import React, { FC, useState } from 'react';
-import Button from '../Button';
-import CookiesModal from '../CookiesModal';
+import React, { FC, useState, useEffect } from 'react';
+/* import Button from '../Button';
+import CookiesModal from '../CookiesModal'; */
+import './CookiesWarning.css';
+import closeButton from '../../images/close-button.svg';
 
 interface CookiesWarningProps {
   handleHideWarning(): void;
@@ -13,10 +15,15 @@ interface CookiesWarningState {
 
 const CookiesWarning: FC<CookiesWarningProps> = (props) => {
 
-  const [showCookiesModal, setShowCookiesModal] = useState(false);
+  const [cookiesWarningState, setCookiesWarningState] = useState(props);
+  useEffect(() => {
+    setCookiesWarningState(props);
+  }, [props])
+  /* const [showCookiesModal, setShowCookiesModal] = useState(false); */
 
   return (
     <div id="cookies-warning">
+      <img className="close-cross" loading="lazy" src={closeButton} alt="close button" onClick={() => cookiesWarningState.handleHideWarning()} />
       <h2>We use cookies to improve your experience on our website.</h2>
       <p>
         We use cookies on this website to personalize content, enhance your user experience,

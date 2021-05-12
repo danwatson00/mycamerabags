@@ -22,9 +22,10 @@
   display: inline-block;
 }
 
-.modal-body {
-  margin-left: 15px;
+.modal-body, .modal-header, .modal-footer {
+  margin: 15px;
 }
+
 
 .modal-body h4 {
   margin-top: 0;

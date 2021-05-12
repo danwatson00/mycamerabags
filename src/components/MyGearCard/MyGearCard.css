@@ -9,6 +9,23 @@
   margin-bottom: 20px;
 }
 
-.modal-header small {
-  margin-left: 10px;
+.gear-card-select-btn-group {
+  padding-bottom: 20px;
+}
+
+.toolbar-button {
+  display: inline-block;
+  width: 40px;
+  font-size: 0.5em;
+  padding: 5px 12px;
+}
+
+.toolbar-button img {
+  display: block;
+  width: 15px;
+  margin: 0 auto;
+}
+
+.toolbar-button span {
+  margin: 0 auto;
 }

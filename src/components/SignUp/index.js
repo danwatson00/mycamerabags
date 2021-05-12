@@ -4,11 +4,17 @@ import { Link, withRouter } from 'react-router-dom';
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
 import * as ROLES from '../../constants/roles';
+import { SignInGoogle, SignInFacebook, SignInTwitter } from '../SignIn';
+import './SignUp.css';
 
 const SignUpPage = () => (
   <div>
-    <h1>SignUp</h1>
-    <SignUpForm />
+    <h2>Sign up for My Camera Bags</h2>
+    <SignUpForm isSignUp={true} />
+    <hr className="divider"></hr>
+    <SignInGoogle isSignUp={true} />
+    <SignInFacebook isSignUp={true} />
+    <SignInTwitter isSignUp={true} />
   </div>
 );
 

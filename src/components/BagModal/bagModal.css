@@ -4,7 +4,7 @@
   list-style: none;
 } */
 
-.modal-body {
+.modal-body, .modal-header, .modal-footer {
   margin: 15px;
 }
 

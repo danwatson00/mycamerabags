@@ -1,0 +1,41 @@
+.warning-alert {
+  background-color: #ffa800;
+  color: white;
+}
+
+.success-alert {
+  background-color: #3a4263;
+  color: white;
+}
+
+@keyframes topToBottom {
+  0% { top: 0%; opacity: 0%; }
+  50% { opacity: 100%;}
+  100% { top: 100%; opacity: 0%; }
+}
+
+.message-container {
+  position: fixed;
+  top: 100%;
+  left: 50%;
+  margin-top: -50px;
+  margin-left: -100px;
+  z-index: 1000;
+  padding: 15px 25px;
+  border-radius: 10px;
+  animation-name: topToBottom;
+  animation-duration: 3s;
+}
+
+/* .alert-message-container {
+  transition: opacity 0.5s;
+  opacity: 1;
+}
+
+.alert-message-container.hide {
+  opacity: 0;
+  pointer-events: none;
+} */
+
+
+

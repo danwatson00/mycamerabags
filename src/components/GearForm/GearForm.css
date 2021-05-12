@@ -1,0 +1,12 @@
+.modal-body {
+  max-height: 550px;
+  overflow-y: scroll;
+}
+
+.form-row {
+  margin-bottom: 15px;
+}
+
+#gear-form input, #gear-form select {
+  margin-left: 5px;
+}

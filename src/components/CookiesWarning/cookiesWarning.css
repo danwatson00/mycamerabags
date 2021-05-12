@@ -1,0 +1,17 @@
+#cookies-warning {
+  position: fixed;
+  bottom: 0;
+  z-index: 100;
+  background-color: lightgray;
+  width: 100vw;
+}
+
+.close-cross {
+  display: inline-block;
+  opacity: 50%;
+  float: right;
+  padding: 10px;
+  height: 15px;
+  width: 15px;
+  cursor: pointer;
+}

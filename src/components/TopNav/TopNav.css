@@ -1,15 +1,23 @@
-.top-nav-ul {
+#top-nav {
   list-style-type: none;
   float: right;
 }
 
-.top-nav-ul li {
+#top-nav li {
   display:inline;
+}
+
+#top-nav li a {
+  text-decoration: none;
+}
+
+#top-nav h2 {
+  margin: 18px 15px;
 }
 
 .profile-pic {
   width: 40px;
-  margin: 0 10px 0 10px;
+  margin: 10px 10px 0 10px;
   border-radius: 50%;
   border: 2px solid gray;
 }

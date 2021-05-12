@@ -1,28 +1,27 @@
 import React, { FC, useState, useEffect } from 'react';
 import { withFirebase } from '../Firebase';
-import './CreateGear.css';
+import './GearForm.css';
 import FileUpload from '../FileUpload';
 import { FirebaseTypes, GlobalGearItem } from '../../constants/types';
+/* import Button from '../Button'; */
 
 interface GearFormProps {
   isEditMode: Boolean;
   item: GlobalGearItem;
   firebase: FirebaseTypes;
-  getAllGear(): void;
-  hideModal(): void;
+  onChange(e: React.ChangeEvent<HTMLInputElement>): void;
+  onSelectChange(e: React.ChangeEvent<HTMLSelectElement>): void;
+  onTextAreaChange(e: React.ChangeEvent<HTMLTextAreaElement>): void;
+  onImageUrlChange(url: string): void;
+  isMyGear: boolean;
 }
 
 const GearForm: FC<GearFormProps> = (props) => {
 
-  const [make, setMake] = useState(props.isEditMode ? props.item.make : '');
-  const [model, setModel] = useState(props.isEditMode ? props.item.model : '');
-  const [category, setCategory] = useState(props.isEditMode ? props.item.category : '' );
-  const [subCategory, setSubCategory] = useState(props.isEditMode ? props.item.subCategory : '');
-  const [imageUrl, setImageUrl] = useState(props.isEditMode ? props.item.imageUrl : '');
-  const [description, setDescription] = useState(props.isEditMode ? props.item.description : '');
-  const [manualUrl, setManualUrl] = useState(props.isEditMode ? props.item.manualUrl : '');
-  const [specs, setSpecs] = useState(props.isEditMode ? props.item.specs : '');
-  const [buyNewUrl, setBuyNewUrl] = useState(props.isEditMode ? props.item.buyNewUrl : '');
+  const [gearFormState, setGearFormState] = useState(props);
+  useEffect(() => {
+    setGearFormState(props)
+  }, [props]);
 
   const categories = [
     'Digital Cameras',
@@ -50,58 +49,11 @@ const GearForm: FC<GearFormProps> = (props) => {
    const imageRef = imagesRef.child(file.name);
    imageRef.put(file).then((reference: any) => {
      storageRef.child(reference.metadata.fullPath).getDownloadURL().then((url: any) => {
-       setImageUrl(url);
+       props.onImageUrlChange(url);
      });
    });;
   }
 
-  function onSubmit(event: React.FormEvent<HTMLFormElement>) {
-    const item = {
-      make: make,
-      model: model,
-      category: category,
-      subCategory: subCategory,
-      imageUrl: imageUrl,
-      description: description,
-      manualUrl: manualUrl,
-      specs: specs,
-      buyNewUrl: buyNewUrl
-    }
-    event.preventDefault();
-    if (props.isEditMode) {
-      props.firebase.updateGear(item, props.item.uid).then(() => {
-        setMake('');
-        setModel('');
-        setCategory('');
-        setSubCategory('');
-        setImageUrl('');
-        setDescription('');
-        setManualUrl('');
-        setSpecs('');
-        setBuyNewUrl('');
-        props.getAllGear();
-        props.hideModal();
-      }).catch(error => {
-        console.log("error", error);
-      });
-    } else {
-      props.firebase.createGear(item).then(() => {
-        setMake('');
-        setModel('');
-        setCategory('');
-        setSubCategory('');
-        setImageUrl('');
-        setDescription('');
-        setManualUrl('');
-        setSpecs('');
-        setBuyNewUrl('');
-        props.getAllGear();
-        props.hideModal();
-      }).catch(error => {
-        console.log("error", error);
-      });
-    }
-  }
     /* const isInvalid = 
       this.state.make === '' || 
       this.state.model === '' || 
@@ -112,52 +64,54 @@ const GearForm: FC<GearFormProps> = (props) => {
       this.state.manualUrl === ''; */
 
     return (
-      <div>
-        <form onSubmit={onSubmit}>
-          <div>
-            <label>Make:</label>
-            <input type="text" name="make" value={make} onChange={e => setMake(e.target.value)}/>
-          </div>
-          <div>
-            <label>Model:</label>
-            <input type="text" name="model" value={model} onChange={e => setModel(e.target.value)}/>
-          </div>
-          <div>
-            <label>Category:</label>
-            <select name="category" value={category} onChange={e => setCategory(e.target.value)}>
-              {categories.map((category, index) => {
-                return (
-                  <option key={index} value={category}>{category}</option>
-                )
-              })}
-            </select>
-          </div>
-          <div>
-            <label>SubCategory:</label>
-            <input type="text" name="subCategory" value={subCategory} onChange={e => setSubCategory(e.target.value)} />
-          </div>
-          <div>
-            <label>Description:</label>
-            <input type="textarea" name="description" value={description} onChange={e => setDescription(e.target.value)} />
-          </div>
-          <div>
-            <label>Gear Image:</label>
-            <FileUpload
-              saveImage={saveImage}
-            />
-          </div>
-          <div>
-            <label>Instructions/Manual:</label>
-            <input type="text" name="manualUrl" value={manualUrl} onChange={e => setManualUrl(e.target.value)} />
-          </div>
-            <label>Specs:</label>
-            <input type="text" name="specs" value={specs} onChange={e => setSpecs(e.target.value)} />
-          <div>
-            <label>Buy New Url:</label>
-            <input type="text" name="buyNewUrl" value={buyNewUrl} onChange={e => setBuyNewUrl(e.target.value)} />
-          </div>
-          <input type="submit" value="Submit" />
-        </form>
+      <div id="gear-form">
+        {/* <img className="modal-image" loading="lazy" src={gearFormState.item.imageUrl} alt={gearFormState.item ? gearFormState.item.make + ' ' + gearFormState.item.model : 'photo equipment'} /> */}
+        <div className="form-row">
+          <label>Make:</label>
+          <input type="text" name="make" value={gearFormState.item.make} onChange={e => props.onChange(e)}/>
+        </div>
+        <div className="form-row">
+          <label>Model:</label>
+          <input type="text" name="model" value={gearFormState.item.model} onChange={e => props.onChange(e)}/>
+        </div>
+        <div className="form-row">
+          <label>Category:</label>
+          <select name="category" value={gearFormState.item.category} onChange={e => props.onSelectChange(e)}>
+            {categories.map((category, index) => {
+              return (
+                <option key={index} value={category}>{category}</option>
+              )
+            })}
+          </select>
+        </div>
+        <div className="form-row">
+          <label>SubCategory:</label>
+          <input type="text" name="subCategory" value={gearFormState.item.subCategory} onChange={e => props.onChange(e)} />
+        </div>
+        <div className="form-row">
+          <label>Description:</label>
+          <textarea name="description" rows={8} cols={45} value={gearFormState.item.description} onChange={e => props.onTextAreaChange(e)} />
+        </div>
+        <div className="form-row">
+          <label>Gear Image:</label>
+          <FileUpload
+            saveImage={saveImage}
+          />
+        </div>
+        <div className="form-row">
+          <label>Instructions/Manual:</label>
+          <input type="text" name="manualUrl" value={gearFormState.item.manualUrl} onChange={e => props.onChange(e)} />
+        </div>
+        <div className="form-row">
+          <label>Specs:</label>
+          <input type="text" name="specs" value={gearFormState.item.specs} onChange={e => props.onChange(e)} />
+        </div>
+        {!gearFormState.isMyGear &&
+          <div className="form-row">
+          <label>Buy New Url:</label>
+          <input type="text" name="buyNewUrl" value={gearFormState.item.buyNewUrl} onChange={e => props.onChange(e)} />
+        </div>
+        }
       </div>
     );
 }

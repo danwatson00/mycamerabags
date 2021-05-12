@@ -1,0 +1,28 @@
+.select-button-group {
+  border: 1px solid gray;
+  border-radius: 4px;
+  display: grid;
+  grid-template-columns: 6fr 5fr;
+  grid-template-rows: 1fr;
+}
+
+.select-button-group .ui-select {
+  border: none;
+  grid-column: 1;
+  grid-row: 1;
+  margin: 0 5px;
+  /* width: 60%; */
+}
+
+.select-button-group button {
+  border: none;
+  border-left: 1px solid gray;
+  border-radius: 0;
+  grid-column: 2;
+  grid-row: 1;
+  /* width: 30%; */
+}
+
+.select-button-group select:focus {
+  outline: none;
+}

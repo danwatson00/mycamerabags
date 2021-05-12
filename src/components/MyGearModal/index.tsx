@@ -1,17 +1,54 @@
 import React, { Component } from 'react';
 import { withFirebase } from '../Firebase';
-import './UserGearModal.css';
+import './MyGearModal.css';
 import Button from '../Button';
 import GearForm from '../GearForm';
 import closeButton from '../../images/close-button.svg';
+import { FirebaseTypes, UserGearItem, AuthUser } from '../../constants/types';
 
-class UserGearModal extends Component {
-  constructor(props) {
+interface MyGearModalProps {
+  getMyGear(): void;
+  item: UserGearItem;
+  hideGearModal(): void;
+  firebase: any;
+  isEdit: boolean;
+}
+
+interface MyGearModalState {
+  modalVisible: boolean;
+  editMode: boolean;
+  make: string;
+  model: string;
+  category: string;
+  subCategory: string;
+  imageUrl: string;
+  description: string;
+  manualUrl: string;
+  specs: string;
+  buyNewUrl: string;
+  categories: string[];
+  item: any;
+}
+
+class MyGearModal extends Component<MyGearModalProps, MyGearModalState> {
+  constructor(props: MyGearModalProps) {
     super(props);
 
     this.state = {
       modalVisible: false,
       editMode: false,
+      item: this.props.item ? this.props.item :
+        {
+          make: '',
+          model: '',
+          category: '',
+          subCategory: '',
+          imageUrl: '',
+          description: '',
+          manualUrl: '',
+          specs: '',
+          buyNewUrl: ''
+        },
       make: '',
       model: '',
       category: '',
@@ -87,11 +124,17 @@ class UserGearModal extends Component {
       }).then(() => {
         this.closeModal();
       })
+  }*/
+
+  deleteMyGear(userId: string, id: string) {
+    this.props.firebase.deleteUserGear(this.props.item.userId, this.props.item.uid).then(() => {
+      this.props.getMyGear();
+    });
   }
 
-  onClick() {
-    this.setState({editMode: true});
-  } */
+  onImageUrlChange(url: string) {
+    this.setState({ imageUrl: url });
+  }
 
   renderInfoMode() {
     return (
@@ -106,43 +149,41 @@ class UserGearModal extends Component {
 
   render() {
     return (
-      <div className="modal-container">
+      <div className="modal-container modal-lg">
         <div className="modal">
           <div className="modal-header">
-            {!this.state.editMode &&
+            {!this.props.isEdit &&
               <div>
-                <img className="close-cross" loading="lazy" src={closeButton} alt="close button" onClick={() => this.props.hideModal()} />
+                <img className="close-cross" loading="lazy" src={closeButton} alt="close button" onClick={() => this.props.hideGearModal()} />
                 <h2 className="modal-title">{this.props.item.make + ' ' + this.props.item.model}</h2><br />
                 <small>Category: {this.props.item.category}: {this.props.item.subCategory}</small>
               </div>
             }
-            {this.state.editMode &&
-              <h2>Edit Gear</h2>
+            {this.props.isEdit &&
+              <h2>Edit My Gear</h2>
             }
           </div>
           <div className="modal-body">
-          {!this.state.editMode && 
-            this.renderInfoMode()
-          }
-          {this.state.editMode &&
-            <GearForm
-                isEditMode={true}
-                item={this.props.item}
-                isUserGear={true}
-            />
-          }
+            {!this.props.isEdit &&
+              this.renderInfoMode()
+            }
+            {this.props.isEdit &&
+              <GearForm
+                  isEditMode={true}
+                  item={this.props.item}
+                  isUserGear={true}
+              />
+            }
           </div>
           <div className="modal-footer">
-            {!this.state.editMode && 
+            {!this.props.isEdit &&
               <div>
-                <Button class="btn btn-default cancel-button" label="Close" click={() => this.props.hideModal()} />
-                <Button class="btn btn-default" label="Edit" click={() => this.onClick()} />
+                <Button class="btn btn-default cancel-button" label="Close" click={() => this.props.hideGearModal()} />
               </div>
             }
-            {this.state.editMode &&
+            {this.props.isEdit &&
               <div>
-                <Button class="btn btn-default" label="Update" click={() => this.onClick()} />
-                <Button class="btn btn-default close-button" label="Close" click={() => this.props.hideModal()} />
+                <Button class="btn btn-default close-button" label="Close" click={() => this.props.hideGearModal()} />
               </div>
             }
           </div>
@@ -152,4 +193,4 @@ class UserGearModal extends Component {
   }
 }
 
-export default withFirebase(UserGearModal);
+export default withFirebase(MyGearModal);

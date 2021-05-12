@@ -1,12 +1,20 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
+import AlertMessage from '../AlertMessage';
 
 export const sendSuccessMessage = (message) => {
   console.log("sendSuccessMessage");
-  return (
-    <div className="message">
-      <p>{message}</p>
-    </div>
-  )
+  /* return (
+    <AlertMessage
+      message={message}
+      messageType='success'
+    />
+  ); */
+  ReactDOM.render(
+    <AlertMessage
+      message={message}
+      messageType='success'
+    />, document.getElementById('message-center'));
 }
 
 export const deepCopy = obj => {

@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { withFirebase } from '../Firebase';
 import GearCard from '../GearCard';
-import { withAuthentication } from '../Session';
+/* import { withAuthentication } from '../Session'; */
 import './AllGear.css';
-import { AuthUserContext } from '../Session';
 import GearModal from '../GearModal';
 import Button from '../Button';
+import CreateGearModal from '../CreateGearModal';
+import * as Utilities from '../Utilities';
 
 class AllGear extends Component {
   constructor(props) {
@@ -14,7 +15,8 @@ class AllGear extends Component {
     this.state = {
       gearData: [],
       error: '',
-      gearModalVisible: false
+      gearModalVisible: false,
+      createGearModalVisible: false
     };
   }
 
@@ -31,8 +33,11 @@ class AllGear extends Component {
     })
   }
 
-  componentDidMount() {
-    this.getAllGear();
+  deleteGear(gearUid) {
+    this.props.firebase.deleteGear(gearUid).then(() => {
+      this.getAllGear();
+      Utilities.sendSuccessMessage("Your item has been deleted successfully.");
+    })
   }
 
   showGearModal() {
@@ -43,33 +48,37 @@ class AllGear extends Component {
     this.setState({ gearModalVisible: false });
   }
 
+  showModal(modalStateName) {
+    this.setState({ [modalStateName]: true });
+  }
+
+  hideModal(modalStateName) {
+    this.setState({ [modalStateName]: false });
+  }
+
+  componentDidMount() {
+    this.getAllGear();
+  }
+
   render() {
-    /* let user = this.context;
-    console.log("context user", user); */
     return(
       <div id="all-gear">
         <div className="create-gear">
           <h2>Create New Gear</h2>
-          <Button class="btn btn-default" label="CreateGear" click={() => this.onClick()} />
+          <Button class="btn btn-default" label="CreateGear" click={() => this.showModal('createGearModalVisible')} />
         </div>
         <h1>All Gear</h1>
         <div>
           {this.state.gearData.map((gear, key) => {
-            /* let imageUrl = this.props.firebase.downloadImage(gear.imagePath); */
               return (
                 <div className="gear-container" key={key}>
-                  <AuthUserContext.Consumer>
-                    {authUser => (
                       <GearCard 
-                        authUser={authUser} 
+                        authUser={this.props.authUser} 
                         getAllGear={this.getAllGear.bind(this)} 
                         addToUserGear={this.props.firebase.addToUserGear} 
-                        deleteGear={() => this.props.firebase.deleteGear(gear.uid)} 
+                        deleteGear={this.deleteGear.bind(this)} 
                         item={gear}
-                        /* imageUrl={imageUrl} */
                       />
-                    )}
-                  </AuthUserContext.Consumer>
                 </div>
               )
             })
@@ -81,9 +90,15 @@ class AllGear extends Component {
               isEditMode={false}
             />
           }
+          {this.state.createGearModalVisible &&
+            <CreateGearModal
+              getAllGear={this.getAllGear.bind(this)}
+              closeModal={this.hideModal.bind(this)}
+            />
+          }
       </div>
     );
   }
 }
 
-export default withAuthentication(withFirebase(AllGear));
+export default withFirebase(AllGear);

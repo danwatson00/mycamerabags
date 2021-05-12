@@ -5,7 +5,6 @@ import Button from '../Button';
 import closeButton from '../../images/close-button.svg';
 
 function BagModal(props) {
-  console.log("props", props);
   const [modalVisible, setModalVisible] = useState(false);
 
   function renderGearRow(item, index) {
@@ -15,7 +14,7 @@ function BagModal(props) {
     return (
       <tr key={index}>
         <td>
-          <img className="my-bag-modal-image" src={gearItem[0].imageUrl} alt={gearItem[0].make + ' ' + gearItem[0].model} />
+          <img className="my-bag-modal-image" src={gearItem[0].imageUrl ? gearItem[0].imageUrl : ''} alt={gearItem[0].make + ' ' + gearItem[0].model} />
         </td>
         <td className="my-bag-modal-desc">
           {gearItem[0].make + ' ' + gearItem[0].model}

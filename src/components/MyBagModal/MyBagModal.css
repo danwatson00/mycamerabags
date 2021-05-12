@@ -4,9 +4,14 @@
   list-style: none;
 } */
 
-.modal-body {
+.modal-container {
+  width: 80%;
+}
+
+.modal-body, .modal-header, .modal-footer {
   margin: 15px;
 }
+
 
 .my-bag-modal-image {
   float: left;

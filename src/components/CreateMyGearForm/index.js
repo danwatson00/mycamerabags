@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withFirebase } from '../Firebase';
-import './CreateMyGear.css';
+import './CreateMyGearForm.css';
 
 class CreateMyGearForm extends Component {
   constructor(props) {

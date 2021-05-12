@@ -36,24 +36,38 @@ class MyBagModal extends Component {
   handleSaveClick() {
     this.props.saveBagGear(this.props.bag.uid, this.props.bag.bagGear);
   }
+  removeGearFromBag(gearItemId) {
+    let remainingGear = this.props.bag.bagGear.splice(gearItemId);
+    this.props.saveBagGear(this.props.bag.uid, remainingGear);
+  }
   renderGearRow(item, index) {
+    console.log("this.props.bag", this.props.bag);
     let gearItem = this.props.myGear.filter(x => x.uid === item.gearId);
-    return (
-      <tr key={index}>
-        <td>
-          <img className="my-bag-modal-image" src={gearItem[0].imageUrl} alt={gearItem[0].make + ' ' + gearItem[0].model} />
-        </td>
-        <td className="my-bag-modal-desc">
-          {gearItem[0].make + ' ' + gearItem[0].model}
-        </td>
-        {this.state.editMode &&
+    if (gearItem.length > 0) {
+      return (
+        <tr key={index}>
           <td>
-            <img className="sort-arrow clickable" src={upArrow} alt="sort up arrow" onClick={() => this.moveUpRank(index)}/>
-            <img className="sort-arrow clickable" src={downArrow} alt="sort down arrow" onClick={() => this.moveDownRank(index)}/>
-        </td>
-        }
-      </tr>
-    )
+            <img className="my-bag-modal-image" src={gearItem[0].imageUrl} alt={gearItem[0].make + ' ' + gearItem[0].model} />
+          </td>
+          <td className="my-bag-modal-desc">
+            {gearItem[0].make + ' ' + gearItem[0].model}
+          </td>
+          {this.state.editMode &&
+            <div>
+              <td>
+                <img className="sort-arrow clickable" src={upArrow} alt="sort up arrow" onClick={() => this.moveUpRank(index)}/>
+                <img className="sort-arrow clickable" src={downArrow} alt="sort down arrow" onClick={() => this.moveDownRank(index)}/>
+              </td>
+            </div>
+          }
+          {this.state.editMode &&
+            <td>
+              <span className="clickable" onClick={() => this.removeGearFromBag(gearItem[0].uid)}>Remove</span>
+            </td>
+          }
+        </tr>
+      )
+    }
   }
 
   render() {
@@ -61,7 +75,7 @@ class MyBagModal extends Component {
       <div>
         <Button class="btn btn-default" label="More Info" click={() => this.openModal()} />
         {this.state.modalVisible &&
-        <div className="modal-container">
+          <div className="modal-container">
             <div className="modal">
               <div className="modal-header">
                 <img className="close-cross" loading="lazy" width="35px" height="35px" src={closeButton} alt="close button" onClick={() => this.closeModal()} />
@@ -94,10 +108,9 @@ class MyBagModal extends Component {
                     <Button class="btn btn-default close-button" label="Close" click={() => this.closeModal()} />
                   </div>
                 }
-                
               </div>
             </div>
-        </div>
+          </div>
         }
       </div>
     );

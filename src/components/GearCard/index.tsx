@@ -4,13 +4,13 @@ import './GearCard.css';
 import Button from '../Button';
 import GearModal from '../GearModal';
 import * as Utilities from '../Utilities';
-import { FirebaseTypes, GlobalGearItem, UserGearItem, AuthUser } from '../../constants/types';
+import { FirebaseTypes, GlobalGearItem, AuthUser } from '../../constants/types';
 
 interface GearCardProps {
   authUser: AuthUser;
   firebase: FirebaseTypes;
   item: GlobalGearItem;
-  deleteGear(): void;
+  deleteGear(gearUid: string): void;
   getAllGear(): void;
 }
 
@@ -31,9 +31,14 @@ const GearCard: FC<GearCardProps> = (props) => {
     });
   }
 
+  function deleteGear() {
+    props.deleteGear(gearCardState.item.uid);
+  }
+
   function showGearModal() {
     setGearModalVisible(true);
   }
+
   function hideGearModal() {
     console.log("hideGearModal")
     setGearModalVisible(false)
@@ -56,7 +61,7 @@ const GearCard: FC<GearCardProps> = (props) => {
     <div className="gear-card">
       <img className="gear-card-image" src={gearCardState.item.imageUrl} alt={gearCardState.item.make + ' ' + gearCardState.item.model} />
       <h4>{gearCardState.item.make + ' ' + gearCardState.item.model}</h4>
-      <Button class="btn btn-default" name="delete" label="Delete" click={gearCardState.deleteGear} />
+      <Button class="btn btn-default" name="delete" label="Delete" click={deleteGear} />
       <Button class="btn btn-default" name="add_to_user" label="Add to Gear" click={addToUserGear} />
       <Button class="btn btn-default" name="show_gear_modal" label="More Info" click={showGearModal} />
       

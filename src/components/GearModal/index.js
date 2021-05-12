@@ -12,15 +12,18 @@ class GearModal extends Component {
     this.state = {
       modalVisible: false,
       editMode: false,
-      make: this.props.item.make,
-      model: this.props.item.model,
-      category: this.props.item.category,
-      subCategory: this.props.item.subCategory,
-      imageUrl: this.props.item.imageUrl,
-      description: this.props.item.description,
-      manualUrl: this.props.item.manualUrl,
-      specs: this.props.item.specs,
-      buyNewUrl: this.props.item.buyNewUrl,
+      item: this.props.item ? this.props.item : 
+        {
+          make: '',
+          model: '',
+          category: '',
+          subCategory: '',
+          imageUrl: '',
+          description: '',
+          manualUrl: '',
+          specs: '',
+          buyNewUrl: ''
+        },
       categories: [
         'Digital Cameras',
         'Lenses',
@@ -43,54 +46,50 @@ class GearModal extends Component {
     };
   }
 
-  onSubmit = event => {
-    const item = {};
-    if (this.state.make)
-      item.make = this.state.make;
-    if (this.state.model)
-      item.model = this.state.model;
-    if (this.state.category)
-      item.category = this.state.category;
-    if (this.state.subCategory)
-      item.subCategory = this.state.subCategory;
-    if (this.state.imageUrl)
-      item.imageUrl = this.state.imageUrl;
-    if (this.state.description)
-      item.description = this.state.description;
-    if (this.state.manualUrl)
-      item.manualUrl = this.state.manualUrl;
-    if (this.state.specs)
-      item.specs = this.state.specs;
-    if (this.state.buyNewUrl)
-      item.buyNewUrl = this.state.buyNewUrl;
-
-    event.preventDefault();
-    this.props.firebase.updateGear(item, this.props.item.uid)
-      .catch(error => {
-        console.log("props error", error);
-        this.setState({
-          error
-        });
-      })
-      .then(() => {
-        this.setState({
-          make: '',
-          model: '',
-          category: '',
-          subCategory: '',
-          imageUrl: '',
-          description: '',
-          manualUrl: '',
-          specs: '',
-          buyNewUrl: ''
-        }, () => this.props.getAllGear())
-      }).then(() => {
-        this.closeModal();
-      })
+  onChange = (e) => {
+    let item = this.state.item;
+    let name = e.target.name;
+    let value = e.target.value;
+    item[name] = value;
+    this.setState({ item });
   }
 
-  onClick() {
-    this.setState({editMode: true});
+  onSelectChange = (e) => {
+    let item = this.state.item;
+    let name = e.target.name;
+    let value = e.target.value;
+    item[name] = value;
+    this.setState({ item });
+  }
+
+  onImageUrlChange(url) {
+    let item = this.state.item;
+    item.imageUrl = url;
+    this.setState({ item });
+  }
+
+  onTextAreaChange(e) {
+    let item = this.state.item;
+    let name = e.target.name;
+    let value = e.target.value;
+    item[name] = value;
+    this.setState({ item });
+  }
+
+  onSubmit = () => {
+    this.props.firebase.updateGear(this.state.item, this.props.item.uid).then(() => {
+      this.props.getAllGear();
+      this.props.hideGearModal();
+    }).catch(error => {
+      console.log("props error", error);
+      this.setState({
+        error
+      });
+    });
+  }
+
+  toggleEditMode() {
+    this.setState({editMode: !this.state.editMode});
   }
 
   onChange(event) {
@@ -104,6 +103,8 @@ class GearModal extends Component {
         <h4>Description</h4>
         <p>{this.props.item.description}</p>
         <h4><a href={this.props.item.manualUrl} rel="noopener noreferrer" target="_blank">Download Product Manual</a></h4>
+        <h4>Specs</h4>
+        <p>{this.props.item.specs}</p>
       </div>
     )
   }
@@ -121,7 +122,8 @@ class GearModal extends Component {
           }
           {this.state.editMode &&
             <div className="modal-header">
-              <h2>Edit</h2>
+              <img className="close-cross" loading="lazy" src={closeButton} alt="close button" onClick={() => this.props.hideGearModal()} />
+              <h2>Edit Gear</h2>
             </div>
           }
           <div className="modal-body">
@@ -131,19 +133,24 @@ class GearModal extends Component {
             {this.state.editMode &&
               <GearForm
                 isEditMode={true}
-                item={this.props.item}
+                item={this.state.item}
+                onChange={this.onChange.bind(this)}
+                onSelectChange={this.onSelectChange.bind(this)}
+                onImageUrlChange={this.onImageUrlChange.bind(this)}
+                onTextAreaChange={this.onTextAreaChange.bind(this)}
               />
             }
           </div>
           {this.state.editMode &&
             <div className="modal-footer">
+            <Button class="btn btn-default cancel-button" label="Back" click={() => this.toggleEditMode()} />
               <Button class="btn btn-default cancel-button" label="Cancel" click={() => this.props.hideGearModal()} />
-              <Button class="btn btn-default" label="Edit" click={() => this.onSubmit()} />
+              <Button class="btn btn-default" label="Save Changes" click={() => this.onSubmit()} />
             </div>
           }
           {!this.state.editMode &&
             <div className="modal-footer">
-              <Button class="btn btn-default" label="Edit" click={() => this.onClick()} />
+              <Button class="btn btn-default" label="Edit" click={() => this.toggleEditMode()} />
               <Button class="btn btn-default close-button" label="Close" click={() => this.props.hideGearModal()} />
             </div>
           }

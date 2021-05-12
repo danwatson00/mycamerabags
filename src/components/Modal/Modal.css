@@ -5,7 +5,7 @@
   height:100%;
   top:0px;
   left:0px;
-  z-index:1000;
+  z-index:500;
 }
 
 .modal {
@@ -27,6 +27,11 @@
   margin: 15px 0 15px 10px;
   display: inline-block;
 }
+
+.modal-body, .modal-header, .modal-footer {
+  margin: 15px;
+}
+
 
 .close-cross {
   display: inline-block;

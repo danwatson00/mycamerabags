@@ -126,7 +126,17 @@ class Firebase extends Component {
     });
   });
 
-  updateGear = (item, id) => this.db.collection('gear').doc(id).update(item);
+  createUserGear = (gearData, userId) => this.db.collection(`users/${userId}/userGear`).add(gearData).then(function (docRef) {
+    docRef.update({
+      uid: docRef.id
+    });
+  });
+
+  updateGear = (item, id) => this.db.collection('gear').doc(id).update(item).then(() => {
+    console.log("gearUpdated");
+  }).catch(error => {
+    console.log("error", error);
+  });
 
   deleteGear = (id) => this.db.collection('gear').doc(id).delete();
 
@@ -141,7 +151,7 @@ class Firebase extends Component {
     console.log("error", error);
   });
 
-  updateUserGear = (item, id) => this.db.collection('userGear').doc(id).update(item);
+  updateUserGear = (item, id, userId) => this.db.collection(`users/${userId}/userGear`).doc(id).update(item);
 
   deleteUserGear = (userId, id) => this.db.collection(`users/${userId}/userGear`).doc(id).delete();
 
@@ -195,5 +205,4 @@ class Firebase extends Component {
   
   }
 }
-
 export default Firebase;

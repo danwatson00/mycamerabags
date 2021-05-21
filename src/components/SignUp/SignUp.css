@@ -1,9 +1,49 @@
-.divider {
-  overflow: visible;
-  padding: 0;
+#sign-up-grid {
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr 1fr;
+  padding: 25px;
+  column-gap: 25px;
+}
+
+#sign-up-card {
+  grid-row: 1;
+  border: 1px solid #808080;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+#sign-up-social {
+  grid-row: 1;
+  grid-column: 2;
+}
+
+#sign-up-social button {
+  margin-bottom: 20px;
+}
+
+.sign-up-social-button {
+  align-self: center;
+  justify-self: center;
+}
+
+#sign-up-card h2 {
+  margin: 18px 0;
+}
+
+#sign-up-card label {
+  display: block;
+}
+
+#sign-up-card .form-group {
   margin-bottom: 10px;
-  border: none;
-  border-top: 1px solid #e0e0e0;
-  color: #6e6d7a;
-  text-align: center;
+}
+
+#sign-up-card input {
+  width: 90%;
+}
+
+#sign-up-social span {
+  align-self: center;
+  justify-self: center;
 }

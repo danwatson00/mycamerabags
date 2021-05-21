@@ -8,13 +8,20 @@ import { SignInGoogle, SignInFacebook, SignInTwitter } from '../SignIn';
 import './SignUp.css';
 
 const SignUpPage = () => (
-  <div>
-    <h2>Sign up for My Camera Bags</h2>
-    <SignUpForm isSignUp={true} />
-    <hr className="divider"></hr>
-    <SignInGoogle isSignUp={true} />
-    <SignInFacebook isSignUp={true} />
-    <SignInTwitter isSignUp={true} />
+  <div id="sign-up-grid">
+    <div id="sign-up-card">
+      <h4 style={{ color: '#808080', marginTop: 5 }}>SIGN UP FOR FREE</h4>
+      <h2>Sign up for My Camera Bags</h2>
+      <SignUpForm isSignUp={true} />
+    </div>
+    <div id="sign-up-social">
+      <span>TEST</span>
+      <h3 style={{ color: '#808080', textAlign: 'center' }}>Or</h3>
+      <h4 style={{ color: '#808080', textAlign: 'center' }}>Sign in with social media</h4>
+      <div className="sign-up-social-button"><SignInGoogle isSignUp={true} /></div>
+      <div className="sign-up-social-button"><SignInFacebook isSignUp={true} /></div>
+      <div className="sign-up-social-button"><SignInTwitter isSignUp={true} /></div>
+    </div>
   </div>
 );
 
@@ -109,44 +116,58 @@ class SignUpFormBase extends Component {
 
     return (
       <form onSubmit={this.onSubmit}>
-        <input
-          name="username"
-          value={username}
-          onChange={this.onChange}
-          type="text"
-          placeholder="Full Name"
-        />
-        <input
-          name="email"
-          value={email}
-          onChange={this.onChange}
-          type="text"
-          placeholder="Email Address"
-        />
-        <input
-          name="passwordOne"
-          value={passwordOne}
-          onChange={this.onChange}
-          type="password"
-          placeholder="Password"
-        />
-        <input
-          name="passwordTwo"
-          value={passwordTwo}
-          onChange={this.onChange}
-          type="password"
-          placeholder="Confirm Password"
-        />
-        <label>
-          Admin:
+        <div className="form-group">
+          <label>Name:</label>
           <input
-            name="isAdmin"
-            type="checkbox"
-            checked={isAdmin}
-            onChange={this.onChangeCheckbox}
+            name="username"
+            value={username}
+            onChange={this.onChange}
+            type="text"
+            placeholder="Full Name"
           />
-        </label>
-        <button disabled={isInvalid} type="submit">
+        </div>
+        <div className="form-group">
+          <label>Email:</label>
+          <input
+            name="email"
+            value={email}
+            onChange={this.onChange}
+            type="text"
+            placeholder="Email Address"
+          />
+        </div>
+        <div className="form-group">
+          <label>Password:</label>
+          <input
+            name="passwordOne"
+            value={passwordOne}
+            onChange={this.onChange}
+            type="password"
+            placeholder="Password"
+          />
+        </div>
+        <div className="form-group">
+          <label>Confirm Password:</label>
+          <input
+            name="passwordTwo"
+            value={passwordTwo}
+            onChange={this.onChange}
+            type="password"
+            placeholder="Confirm Password"
+          />
+        </div>
+        <div className="form-group">
+          <label>
+            Admin:
+            <input
+              name="isAdmin"
+              type="checkbox"
+              checked={isAdmin}
+              onChange={this.onChangeCheckbox}
+            />
+          </label>
+        </div>
+        <button  className="pull-right" disabled={isInvalid} type="submit">
           Sign Up
         </button>
 

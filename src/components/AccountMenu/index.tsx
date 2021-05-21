@@ -6,6 +6,7 @@ import * as ROUTES from '../../constants/routes';
 import { Link } from 'react-router-dom';
 import { withFirebase } from '../Firebase';
 import { FirebaseTypes } from '../../constants/types';
+import OutsideClicker from '../OutsideClicker';
 
 
 interface AccountMenuProps {
@@ -57,13 +58,15 @@ const AccountMenu: FC<AccountMenuProps> = (props) => {
 
   return (
     <div className="menu-container">
-      <div id="account-menu">
-        <img className="close-cross" loading="lazy" src={closeButton} alt="close button" onClick={accountMenuState.openCloseMenu} />
-        <ul>
-          <li><Link to={ROUTES.ACCOUNT}>Account</Link></li>
-          <li className="clickable" onClick={signOut}>Sign Out</li>
-        </ul>
-      </div>
+      <OutsideClicker openCloseMenu={accountMenuState.openCloseMenu}>
+        <div id="account-menu">
+          <img className="close-cross" loading="lazy" src={closeButton} alt="close button" onClick={accountMenuState.openCloseMenu} />
+          <ul>
+            <li><Link to={ROUTES.ACCOUNT}>Account</Link></li>
+            <li className="clickable" onClick={signOut}>Sign Out</li>
+          </ul>
+        </div>
+      </OutsideClicker>
     </div>
   );
 }

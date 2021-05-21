@@ -42,9 +42,9 @@ const TopNavAuth = ({ authUser }: any) => {
         )}
       </ul>
       {accountMenuVisible &&
-        <AccountMenu
-          openCloseMenu={openCloseMenu}
-        />
+          <AccountMenu
+            openCloseMenu={() => openCloseMenu()}
+          />
       }
     </div>
   );
